@@ -1,8 +1,6 @@
 { lib, config, ... }:
 
-let
-  inherit (lib) mkOption types;
-  cfg = config.monitors;
+let inherit (lib) mkOption types;
 in {
   options.monitors = mkOption {
     type = types.listOf (types.submodule {

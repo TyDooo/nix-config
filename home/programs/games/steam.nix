@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, ... }:
 
 let
   steam-with-pkgs = pkgs.steam.override {
@@ -18,8 +18,6 @@ let
         mangohud
       ];
   };
-
-  monitor = lib.head (lib.filter (m: m.primary) config.monitors);
   steam-session =
     pkgs.writeTextDir "share/wayland-sessions/steam-session.desktop" ''
       [Desktop Entry]

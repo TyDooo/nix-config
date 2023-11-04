@@ -11,5 +11,6 @@
 
     nil # Nix LSP
     nixfmt # Nix formatter
+    deadnix
   ];
 }

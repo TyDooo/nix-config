@@ -21,8 +21,8 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nur, hyprland, home-manager, spicetify-nix
-    , pre-commit-hooks, flake-utils, ... }:
+  outputs = inputs@{ self, nixpkgs, nur, home-manager, pre-commit-hooks
+    , flake-utils, ... }:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;

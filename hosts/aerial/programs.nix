@@ -1,5 +1,3 @@
-{ lib, pkgs, ... }:
-
 {
   programs = {
     adb.enable = true;
