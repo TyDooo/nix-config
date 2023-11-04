@@ -6,6 +6,7 @@
 
     ./desktop
     ./programs
+    ./shell
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   home = {

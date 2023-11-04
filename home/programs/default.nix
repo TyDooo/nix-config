@@ -7,7 +7,6 @@
     ./kitty.nix
     ./discord.nix
     ./spicetify.nix
-    ./git.nix
     ./games
     # ./xdg.nix
   ];
@@ -18,11 +17,7 @@
     catppuccin-cursors.mochaDark
 
     # Utils
-    ripgrep
-    btop
-    nixfmt # TODO: Use cachix
     pamixer
-    tree
 
     # Productivity
     obsidian
