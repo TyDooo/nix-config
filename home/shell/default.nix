@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./bash.nix ./git.nix ./starship.nix ];
+  imports = [ ./bash.nix ./direnv.nix ./git.nix ./starship.nix ];
 
   home.packages = with pkgs; [
     ripgrep # Better grep
