@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./nix.nix ./fonts.nix ./pipewire.nix ./locale.nix ];
+  imports = [ ./nix.nix ./fonts.nix ./locale.nix ];
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";

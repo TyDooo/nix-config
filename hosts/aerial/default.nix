@@ -6,13 +6,12 @@
 
 {
   imports = [
+    ./hardware-configuration.nix
+
+    ../common/global
     ../common/users/tygo
 
-    ../common
-    ./programs.nix
-
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    ../common/optional/pipewire.nix
   ];
 
   boot = {
