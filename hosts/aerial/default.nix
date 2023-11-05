@@ -15,9 +15,8 @@
     ./hardware-configuration.nix
   ];
 
-  # Bootloader.
   boot = {
-    # systemd-boot.enable = true;
+    kernelPackages = pkgs.linuxKernel.packages.linux_zen;
 
     loader = {
       efi = {
