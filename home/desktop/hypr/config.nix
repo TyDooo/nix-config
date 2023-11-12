@@ -2,7 +2,6 @@
 
 let pointer = config.home.pointerCursor;
 in {
-  "$MOD" = "SUPER";
   exec-once = [
     "hyprctl setcursor ${pointer.name} ${toString pointer.size}"
     "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
