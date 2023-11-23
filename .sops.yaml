@@ -1,0 +1,21 @@
+keys:
+  - &admin_tygo age1z7ayn0pwy3y3tayaslxfzd867lwuxmqdd8addvags44x8f7fmq4q4f3ce5
+  - &host_aerial age1jwqxgpzcqarcezyrr44jgnluhvja73hzcycpu04jr5cksr2g5veqlvrawl
+  - &host_balthasar age15n02l6e4y9yfuuuljly3sd2vps0qhy6upcgmn8ymenw5usuhveqsmwasv0
+creation_rules:
+  - path_regex: hosts/aerial/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *host_aerial
+      - *admin_tygo
+  - path_regex: hosts/balthasar/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *host_balthasar
+      - *admin_tygo
+  - path_regex: hosts/common/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *host_aerial
+      - *host_balthasar
+      - *admin_tygo

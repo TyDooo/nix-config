@@ -6,6 +6,12 @@
     hyprland.url = "github:hyprwm/Hyprland";
     nix-colors.url = "github:misterio77/nix-colors"; # TODO: use this!
     nur.url = "github:nix-community/NUR";
+
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -39,17 +45,28 @@
       formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
 
       nixosConfigurations = {
+        # Personal desktop
         aerial = lib.nixosSystem {
           modules = [ ./hosts/aerial ];
+          specialArgs = { inherit inputs outputs; };
+        };
+        # External server (Hetzner)
+        balthasar = lib.nixosSystem {
+          modules = [ ./hosts/balthasar ];
           specialArgs = { inherit inputs outputs; };
         };
       };
 
       homeConfigurations = {
         "tygo@aerial" = lib.homeManagerConfiguration {
-          modules = [ ./home ];
+          modules = [ ./home/aerial.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs nur; };
+        };
+        "tygo@balthasar" = lib.homeManagerConfiguration {
+          modules = [ ./home/balthasar.nix ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
         };
       };
     }

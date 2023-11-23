@@ -1,7 +1,17 @@
-{ pkgs, ... }:
+{ inputs, outputs, pkgs, ... }:
 
 {
-  imports = [ ./nix.nix ./fonts.nix ./locale.nix ];
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    ./nix.nix
+    ./fonts.nix
+    ./locale.nix
+    ./openssh.nix
+    ./sops.nix
+    ./tailscale.nix
+  ];
+
+  home-manager.extraSpecialArgs = { inherit inputs outputs; };
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";

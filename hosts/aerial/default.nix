@@ -135,8 +135,7 @@
       device = "//192.168.1.127/data";
       fsType = "cifs";
       options = let
-        # this line prevents hanging on network split
-        automount_opts =
+        automount_opts = # this line prevents hanging on network split
           "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
 
       in [
@@ -145,7 +144,7 @@
     };
   };
 
-  security.pam.services.swaylock.text = "auth include login";
+  programs.hyprland.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
