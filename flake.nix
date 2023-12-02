@@ -5,7 +5,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hyprland.url = "github:hyprwm/Hyprland";
     nix-colors.url = "github:misterio77/nix-colors"; # TODO: use this!
-    nur.url = "github:nix-community/NUR";
 
     sops-nix = {
       url = "github:mic92/sops-nix";

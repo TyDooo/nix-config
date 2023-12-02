@@ -1,6 +1,7 @@
 { pkgs, config, ... }:
 
 {
+  users.mutableUsers = false;
   users.users.tygo = {
     isNormalUser = true;
     description = "Tygo Driessen";
@@ -16,6 +17,8 @@
     sopsFile = ../../secrets.yaml;
     neededForUsers = true;
   };
+
+  home-manager.users.tygo = import home/${config.networking.hostName}.nix;
 
   security.pam.services.swaylock.text = "auth include login";
 }
