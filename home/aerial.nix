@@ -1,4 +1,4 @@
-{ inputs, nur, ... }:
+{ inputs, ... }:
 
 {
   imports = [
@@ -9,9 +9,6 @@
 
     inputs.spicetify-nix.homeManagerModule
   ];
-
-  # home-manager nixpkgs config
-  nixpkgs.overlays = [ nur.overlay ]; # TODO: (re)move
 
   monitors = [{
     name = "DP-1";

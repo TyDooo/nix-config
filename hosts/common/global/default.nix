@@ -13,11 +13,13 @@
 
   home-manager.extraSpecialArgs = { inherit inputs outputs; };
 
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+    config.allowUnfree = true;
+  };
+
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

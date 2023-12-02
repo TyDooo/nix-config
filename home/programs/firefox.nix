@@ -45,13 +45,11 @@
     # };
     profiles.default = {
       isDefault = true;
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      extensions = with pkgs.inputs.firefox-addons; [
         ublock-origin
         privacy-badger
         bitwarden
         clearurls
-        enhancer-for-youtube
-        octotree
         languagetool
         kagi-search
         decentraleyes

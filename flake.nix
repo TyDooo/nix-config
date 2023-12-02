@@ -25,10 +25,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nur, home-manager, pre-commit-hooks
-    , flake-utils, ... }:
+  outputs =
+    inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, flake-utils, ... }:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
@@ -41,6 +46,8 @@
         });
     in {
       homeManagerModules = import ./modules/home-manager;
+
+      overlays = import ./overlays { inherit inputs outputs; };
 
       formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
 
@@ -61,7 +68,7 @@
         "tygo@aerial" = lib.homeManagerConfiguration {
           modules = [ ./home/aerial.nix ];
           pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs nur; };
+          extraSpecialArgs = { inherit inputs outputs; };
         };
         "tygo@balthasar" = lib.homeManagerConfiguration {
           modules = [ ./home/balthasar.nix ];
