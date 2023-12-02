@@ -15,7 +15,7 @@
           substituteAllInPlace $out/bin/disable-breaking-updates.py
           chmod +x $out/bin/disable-breaking-updates.py
         '';
-      in ((discord-canary.override {
+      in (discord-canary.override {
         nss = pkgs.nss_latest;
         # withOpenASAR = true;
         withVencord = true;
@@ -52,6 +52,6 @@
 
           runHook postInstall
         '';
-      })))
+      }))
     ];
 }

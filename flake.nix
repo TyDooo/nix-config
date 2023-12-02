@@ -19,6 +19,10 @@
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -26,24 +30,45 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, ... }:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
       systems = [ "x86_64-linux" ];
-      forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
+      forEachSystem = f:
+        lib.genAttrs systems (system: f system pkgsFor.${system});
       pkgsFor = lib.genAttrs systems (system:
         import nixpkgs {
           inherit system;
           config.allowUnfree = true;
         });
+      addPrecommitCheck = system: {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixfmt.enable = true;
+            deadnix.enable = true;
+            statix.enable = true;
+            nil.enable = true;
+            shellcheck.enable = true;
+            markdownlint.enable = true;
+          };
+          settings = {
+            deadnix.edit = true;
+            deadnix.noLambdaArg = true;
+            statix.ignore = [ "hardware-configuration.nix" ];
+          };
+        };
+      };
     in {
       homeManagerModules = import ./modules/home-manager;
 
-      overlays = import ./overlays { inherit inputs outputs; };
+      overlays = import ./overlays { inherit inputs; };
 
-      devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
-      formatter = forEachSystem (pkgs: pkgs.nixfmt);
+      checks = forEachSystem (system: pkgs: addPrecommitCheck system);
+      devShells = forEachSystem
+        (system: pkgs: import ./shell.nix { inherit self system pkgs; });
+      formatter = forEachSystem (system: pkgs: pkgs.nixfmt);
 
       nixosConfigurations = {
         # Personal desktop

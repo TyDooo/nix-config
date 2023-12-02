@@ -61,8 +61,24 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services = {
+    xserver = {
+      # Enable the X11 windowing system.
+      enable = true;
+
+      # Load nvidia driver for xorg and wayland
+      videoDrivers = [ "nvidia" ];
+
+      # Enable the GNOME Desktop Environment.
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+
+      # Configure keymap in X11
+      layout = "us";
+      xkbVariant = "";
+    };
+    hardware.openrgb.enable = true;
+  };
 
   # Enable OpenGL
   hardware.opengl = {
@@ -77,11 +93,6 @@
     ];
   };
 
-  services.hardware.openrgb.enable = true;
-
-  # Load nvidia driver for xorg and wayland
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = true; # Disable if issues with sleep/suspend
@@ -92,21 +103,8 @@
     package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
-
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   environment.variables = {
     NIXOS_OZONE_WL = "1";

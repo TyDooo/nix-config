@@ -1,5 +1,6 @@
 # Shell for bootstrapping flake-enabled nix and other tooling
-{ pkgs ? # If pkgs is not defined, instanciate nixpkgs from locked commit
+{ self, system
+, pkgs ? # If pkgs is not defined, instanciate nixpkgs from locked commit
   let
     lock =
       (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
@@ -11,10 +12,12 @@
     default = pkgs.mkShell {
       NIX_CONFIG =
         "extra-experimental-features = nix-command flakes repl-flake";
+      inherit (self.checks.${system}.pre-commit-check) shellHook;
       nativeBuildInputs = with pkgs; [
         nix
         home-manager
         git
+        statix
 
         sops
         ssh-to-age
