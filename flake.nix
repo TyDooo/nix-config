@@ -19,11 +19,6 @@
       url = "github:the-argus/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
 
     firefox-addons = {
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
@@ -31,8 +26,7 @@
     };
   };
 
-  outputs =
-    inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, flake-utils, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, flake-utils, ... }:
     let
       inherit (self) outputs;
       lib = nixpkgs.lib // home-manager.lib;
@@ -48,7 +42,8 @@
 
       overlays = import ./overlays { inherit inputs outputs; };
 
-      formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
+      devShells = forEachSystem (pkgs: import ./shell.nix { inherit pkgs; });
+      formatter = forEachSystem (pkgs: pkgs.nixfmt);
 
       nixosConfigurations = {
         # Personal desktop
@@ -75,24 +70,5 @@
           extraSpecialArgs = { inherit inputs outputs; };
         };
       };
-    }
-
-    # Enable commit hooks for nix config repo
-    // flake-utils.lib.eachDefaultSystem (system: {
-      checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-        src = ./.;
-        hooks = {
-          nixfmt.enable = true;
-          deadnix.enable = true;
-          statix.enable = true;
-        };
-        settings = {
-          deadnix.edit = true;
-          deadnix.noLambdaArg = true;
-        };
-      };
-      devShell = nixpkgs.legacyPackages.${system}.mkShell {
-        inherit (self.checks.${system}.pre-commit-check) shellHook;
-      };
-    });
+    };
 }
