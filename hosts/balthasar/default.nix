@@ -6,6 +6,8 @@
     ../common/users/tygo
 
     ./services
+
+    ../common/optional/nginx.nix
   ];
 
   networking = {

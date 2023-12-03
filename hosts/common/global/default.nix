@@ -3,10 +3,12 @@
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
+    ./acme.nix
     ./nix.nix
     ./fonts.nix
     ./locale.nix
     ./openssh.nix
+    ./podman.nix
     ./sops.nix
     ./tailscale.nix
   ];

@@ -1,1 +1,1 @@
-{ imports = [ ./headscale.nix ./fail2ban.nix ]; }
+{ imports = [ ./fail2ban.nix ./headscale.nix ./homarr.nix ./uptime-kuma.nix ]; }
