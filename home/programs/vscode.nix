@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode.override {
@@ -14,7 +12,7 @@
     extensions = with pkgs.vscode-extensions;
       [
         bbenoist.nix
-        brettm12345.nixfmt-vscode
+        kamadorueda.alejandra
 
         usernamehw.errorlens
 
@@ -23,12 +21,15 @@
 
         # Theme
         catppuccin.catppuccin-vsc
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [{
-        name = "catppuccin-perfect-icons";
-        publisher = "thang-nm";
-        version = "0.21.21";
-        sha256 = "sha256-C4epmBAbxxr9z/ruJqv0GH8dk17vxq1xGlC0WDnYjnA=";
-      }];
+      ]
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "catppuccin-perfect-icons";
+          publisher = "thang-nm";
+          version = "0.21.21";
+          sha256 = "sha256-C4epmBAbxxr9z/ruJqv0GH8dk17vxq1xGlC0WDnYjnA=";
+        }
+      ];
     userSettings = {
       "workbench.iconTheme" = "catppuccin-perfect-mocha";
       "workbench.colorTheme" = "Catppuccin Mocha";
@@ -36,6 +37,6 @@
       "window.nativeTabs" = true;
       "window.restoreWindows" = "all";
       "window.menuBarVisibility" = "toggle";
-     };
+    };
   };
 }

@@ -1,6 +1,5 @@
-{ config, ... }:
-
-let pointer = config.home.pointerCursor;
+{config, ...}: let
+  pointer = config.home.pointerCursor;
 in {
   exec-once = [
     "hyprctl setcursor ${pointer.name} ${toString pointer.size}"
@@ -9,7 +8,7 @@ in {
     "waybar"
     "swww init"
   ];
-  exec = [ "swww img /home/tygo/Pictures/wallpapers/dark.png" ];
+  exec = ["swww img /home/tygo/Pictures/wallpapers/dark.png"];
   xwayland.force_zero_scaling = true;
   env = [
     "LIBVA_DRIVER_NAME,nvidia"
@@ -35,14 +34,16 @@ in {
     no_border_on_floating = true;
     layout = "dwindle";
     # TODO: Check if this can be put at a nicer spot
-    monitor = map (m:
-      let
-        resolution =
-          "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
+    monitor =
+      map (m: let
+        resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
         position = "${toString m.x}x${toString m.y}";
       in "${m.name},${
-        if m.enabled then "${resolution},${position},1" else "disable"
-      }") config.monitors;
+        if m.enabled
+        then "${resolution},${position},1"
+        else "disable"
+      }")
+      config.monitors;
   };
 
   misc = {
@@ -67,7 +68,7 @@ in {
       passes = 4;
       new_optimizations = true;
     };
-    blurls = [ "gtk-layer-shell" "waybar" "lockscreen" ];
+    blurls = ["gtk-layer-shell" "waybar" "lockscreen"];
 
     # Shadow
     drop_shadow = true;

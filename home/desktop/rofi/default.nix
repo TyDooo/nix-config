@@ -1,9 +1,8 @@
-{ pkgs, ... }: {
-
+{pkgs, ...}: {
   programs.rofi = {
     enable = true;
     terminal = "${pkgs.kitty}/bin/kitty";
-    plugins = [ pkgs.rofi-emoji ];
+    plugins = [pkgs.rofi-emoji];
   };
 
   home.file = {
@@ -22,5 +21,4 @@
       executable = true;
     };
   };
-
 }

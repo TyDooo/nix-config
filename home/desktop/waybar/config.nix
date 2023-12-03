@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   homeDir = config.home.homeDirectory;
   pamixer = pkgs.pamixer + "/bin/pamixer";
 in {
@@ -11,9 +14,9 @@ in {
     fixed-center = true;
     gtk-layer-shell = true;
     height = 34;
-    modules-left = [ "custom/logo" "hyprland/workspaces" "tray" ];
+    modules-left = ["custom/logo" "hyprland/workspaces" "tray"];
 
-    modules-center = [ ];
+    modules-center = [];
 
     modules-right = [
       "pulseaudio#microphone"
@@ -41,7 +44,7 @@ in {
         "9" = "九";
         "10" = "十";
       };
-      "persistent-workspaces" = { "*" = 5; };
+      "persistent-workspaces" = {"*" = 5;};
     };
 
     "custom/logo" = {
@@ -75,7 +78,7 @@ in {
       format = "󰤆";
     };
 
-    tray = { spacing = 10; };
+    tray = {spacing = 10;};
 
     clock = {
       tooltip = false;
@@ -124,7 +127,7 @@ in {
       tooltip = false;
       format = "{icon} {volume}%";
       format-muted = "󰖁";
-      format-icons = { default = [ "󰕿" "󰖀" "󰕾" ]; };
+      format-icons = {default = ["󰕿" "󰖀" "󰕾"];};
       tooltip-format = "{desc}, {volume}%";
       on-click = "${pamixer} -t";
       on-scroll-up = "${pamixer} -d 1";

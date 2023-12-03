@@ -1,12 +1,15 @@
-{ pkgs, lib, inputs, ... }:
-
 {
-  home.packages = with pkgs;
-    [
-      (let
-        binaryName = "DiscordCanary";
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
+  home.packages = with pkgs; [
+    (let
+      binaryName = "DiscordCanary";
 
-        disableBreakingUpdates = runCommand "disable-breaking-updates.py" {
+      disableBreakingUpdates =
+        runCommand "disable-breaking-updates.py" {
           pythonInterpreter = "${python3.interpreter}";
           configDirName = lib.toLower binaryName;
         } ''
@@ -15,11 +18,13 @@
           substituteAllInPlace $out/bin/disable-breaking-updates.py
           chmod +x $out/bin/disable-breaking-updates.py
         '';
-      in (discord-canary.override {
+    in
+      (discord-canary.override {
         nss = pkgs.nss_latest;
         # withOpenASAR = true;
         withVencord = true;
-      }).overrideAttrs (old: rec {
+      })
+      .overrideAttrs (old: rec {
         libPath = old.libPath + ":${libglvnd}/lib";
 
         installPhase = ''
@@ -53,5 +58,5 @@
           runHook postInstall
         '';
       }))
-    ];
+  ];
 }

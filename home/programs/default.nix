@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ./firefox.nix
     ./vscode.nix
@@ -12,6 +10,7 @@
   ];
 
   home.packages = with pkgs; [
+    vim
     gnumake
     neofetch
     catppuccin-cursors.mochaDark
@@ -26,5 +25,4 @@
     grim
     slurp
   ];
-
 }

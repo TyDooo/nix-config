@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   fonts = {
     packages = with pkgs; [
       cantarell-fonts
@@ -28,10 +26,10 @@
       subpixel.lcdfilter = "default";
 
       defaultFonts = {
-        emoji = [ "Noto Color Emoji" ];
-        monospace = [ "Maple Mono NF" ];
-        sansSerif = [ "Lato" ];
-        serif = [ "Roboto Slab" ];
+        emoji = ["Noto Color Emoji"];
+        monospace = ["Maple Mono NF"];
+        sansSerif = ["Lato"];
+        serif = ["Roboto Slab"];
       };
     };
   };

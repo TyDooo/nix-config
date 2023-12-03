@@ -1,16 +1,17 @@
-{ pkgs, config, ... }:
-
 {
+  pkgs,
+  config,
+  ...
+}: {
   users.mutableUsers = false;
   users.users.tygo = {
     isNormalUser = true;
     description = "Tygo Driessen";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
 
-    openssh.authorizedKeys.keys =
-      [ (builtins.readFile ../../../../home/ssh.pub) ];
+    openssh.authorizedKeys.keys = [(builtins.readFile ../../../../home/ssh.pub)];
     hashedPasswordFile = config.sops.secrets.tygo-password.path;
-    packages = [ pkgs.home-manager ];
+    packages = [pkgs.home-manager];
   };
 
   sops.secrets.tygo-password = {

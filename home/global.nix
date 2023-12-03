@@ -1,7 +1,10 @@
-{ outputs, lib, config, ... }:
-
 {
-  imports = [ ./shell ] ++ (builtins.attrValues outputs.homeManagerModules);
+  outputs,
+  lib,
+  config,
+  ...
+}: {
+  imports = [./shell] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

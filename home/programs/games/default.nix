@@ -1,7 +1,5 @@
-{ pkgs, ... }:
+{pkgs, ...}: {
+  imports = [./steam.nix];
 
-{
-  imports = [ ./steam.nix ];
-
-  home.packages = with pkgs; [ gamescope osu-lazer ];
+  home.packages = with pkgs; [gamescope osu-lazer];
 }

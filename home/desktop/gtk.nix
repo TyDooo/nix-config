@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   gtk = {
     enable = true;
 
@@ -12,8 +10,8 @@
     theme = {
       name = "Catppuccin-Mocha-Compact-Lavender-Dark";
       package = pkgs.catppuccin-gtk.override {
-        accents = [ "lavender" ];
-        tweaks = [ "rimless" "black" ];
+        accents = ["lavender"];
+        tweaks = ["rimless" "black"];
         size = "compact";
         variant = "mocha";
       };
@@ -34,6 +32,6 @@
       gtk-xft-rgba="rgb"
     '';
 
-    gtk4.extraConfig = { gtk-application-prefer-dark-theme = 1; };
+    gtk4.extraConfig = {gtk-application-prefer-dark-theme = 1;};
   };
 }

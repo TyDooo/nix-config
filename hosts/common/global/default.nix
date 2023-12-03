@@ -1,6 +1,8 @@
-{ inputs, outputs, pkgs, ... }:
-
 {
+  inputs,
+  outputs,
+  ...
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ./acme.nix
@@ -13,7 +15,7 @@
     ./tailscale.nix
   ];
 
-  home-manager.extraSpecialArgs = { inherit inputs outputs; };
+  home-manager.extraSpecialArgs = {inherit inputs outputs;};
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

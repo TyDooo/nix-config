@@ -1,4 +1,5 @@
-let port = 4000;
+let
+  port = 4000;
 in {
   services.uptime-kuma = {
     enable = true;
@@ -8,5 +9,5 @@ in {
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ port ];
+  networking.firewall.allowedTCPPorts = [port];
 }

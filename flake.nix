@@ -30,70 +30,80 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, pre-commit-hooks, ... }:
-    let
-      inherit (self) outputs;
-      lib = nixpkgs.lib // home-manager.lib;
-      systems = [ "x86_64-linux" ];
-      forEachSystem = f:
-        lib.genAttrs systems (system: f system pkgsFor.${system});
-      pkgsFor = lib.genAttrs systems (system:
-        import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        });
-      addPrecommitCheck = system: {
-        pre-commit-check = pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            nixfmt.enable = true;
-            deadnix.enable = true;
-            statix.enable = true;
-            nil.enable = true;
-            shellcheck.enable = true;
-            markdownlint.enable = true;
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    home-manager,
+    pre-commit-hooks,
+    ...
+  }: let
+    inherit (self) outputs;
+    lib = nixpkgs.lib // home-manager.lib;
+    systems = ["x86_64-linux"];
+    forEachSystem = f:
+      lib.genAttrs systems (system: f system pkgsFor.${system});
+    pkgsFor = lib.genAttrs systems (system:
+      import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      });
+    addPrecommitCheck = system: {
+      pre-commit-check = pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks = {
+          deadnix.enable = true;
+          statix.enable = true;
+          alejandra.enable = true;
+          nil.enable = true;
+          shellcheck.enable = true;
+          markdownlint.enable = true;
+        };
+        settings = {
+          alejandra.verbosity = "quiet";
+          deadnix = {
+            edit = true;
+            noLambdaArg = true;
+            exclude = ["hardware-configuration.nix"];
           };
-          settings = {
-            deadnix.edit = true;
-            deadnix.noLambdaArg = true;
-            statix.ignore = [ "hardware-configuration.nix" ];
-          };
-        };
-      };
-    in {
-      homeManagerModules = import ./modules/home-manager;
-
-      overlays = import ./overlays { inherit inputs; };
-
-      checks = forEachSystem (system: pkgs: addPrecommitCheck system);
-      devShells = forEachSystem
-        (system: pkgs: import ./shell.nix { inherit self system pkgs; });
-      formatter = forEachSystem (system: pkgs: pkgs.nixfmt);
-
-      nixosConfigurations = {
-        # Personal desktop
-        aerial = lib.nixosSystem {
-          modules = [ ./hosts/aerial ];
-          specialArgs = { inherit inputs outputs; };
-        };
-        # External server (Hetzner)
-        balthasar = lib.nixosSystem {
-          modules = [ ./hosts/balthasar ];
-          specialArgs = { inherit inputs outputs; };
-        };
-      };
-
-      homeConfigurations = {
-        "tygo@aerial" = lib.homeManagerConfiguration {
-          modules = [ ./home/aerial.nix ];
-          pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
-        };
-        "tygo@balthasar" = lib.homeManagerConfiguration {
-          modules = [ ./home/balthasar.nix ];
-          pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
+          statix.ignore = ["hardware-configuration.nix"];
         };
       };
     };
+  in {
+    homeManagerModules = import ./modules/home-manager;
+
+    overlays = import ./overlays {inherit inputs;};
+
+    checks = forEachSystem (system: pkgs: addPrecommitCheck system);
+    devShells =
+      forEachSystem
+      (system: pkgs: import ./shell.nix {inherit self system pkgs;});
+    formatter = forEachSystem (system: pkgs: pkgs.alejandra);
+
+    nixosConfigurations = {
+      # Personal desktop
+      aerial = lib.nixosSystem {
+        modules = [./hosts/aerial];
+        specialArgs = {inherit inputs outputs;};
+      };
+      # External server (Hetzner)
+      balthasar = lib.nixosSystem {
+        modules = [./hosts/balthasar];
+        specialArgs = {inherit inputs outputs;};
+      };
+    };
+
+    homeConfigurations = {
+      "tygo@aerial" = lib.homeManagerConfiguration {
+        modules = [./home/aerial.nix];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+      "tygo@balthasar" = lib.homeManagerConfiguration {
+        modules = [./home/balthasar.nix];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+    };
+  };
 }

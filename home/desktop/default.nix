@@ -1,7 +1,5 @@
-{ pkgs, ... }:
-
-{
-  imports = [ ./hypr ./rofi ./waybar ./gtk.nix ./swayidle.nix ./swaylock.nix ];
+{pkgs, ...}: {
+  imports = [./hypr ./rofi ./waybar ./gtk.nix ./swayidle.nix ./swaylock.nix];
 
   home.pointerCursor = {
     package = pkgs.bibata-cursors;

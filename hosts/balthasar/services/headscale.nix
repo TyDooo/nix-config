@@ -1,7 +1,5 @@
-{ config, ... }:
-
-{
-  imports = [ ../../common/global/tailscale.nix ];
+{config, ...}: {
+  imports = [../../common/global/tailscale.nix];
 
   services = {
     headscale = {
@@ -13,7 +11,7 @@
         metrics_listen_addr = "127.0.0.1:8095";
         logtail.enabled = false;
         log.level = "warn";
-        ip_prefixes = [ "100.64.0.0/10" "fd7a:115c:a1e0::/48" ];
+        ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
       };
     };
 
@@ -23,18 +21,16 @@
         enableACME = true;
         locations = {
           "/" = {
-            proxyPass =
-              "http://localhost:${toString config.services.headscale.port}";
+            proxyPass = "http://localhost:${toString config.services.headscale.port}";
             proxyWebsockets = true;
           };
           "/metrics" = {
-            proxyPass =
-              "http://${config.services.headscale.settings.metrics_listen_addr}/metrics";
+            proxyPass = "http://${config.services.headscale.settings.metrics_listen_addr}/metrics";
           };
         };
       };
     };
   };
 
-  environment.systemPackages = [ config.services.headscale.package ];
+  environment.systemPackages = [config.services.headscale.package];
 }
