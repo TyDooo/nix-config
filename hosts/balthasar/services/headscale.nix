@@ -1,4 +1,6 @@
-{config, ...}: {
+{config, ...}: let
+  derpPort = 3478;
+in {
   imports = [../../common/global/tailscale.nix];
 
   services = {
@@ -12,6 +14,12 @@
         logtail.enabled = false;
         log.level = "warn";
         ip_prefixes = ["100.64.0.0/10" "fd7a:115c:a1e0::/48"];
+
+        derp.server = {
+          enable = true;
+          region_id = 999;
+          stun_listen_addr = "0.0.0.0:${toString derpPort}";
+        };
       };
     };
 
@@ -31,6 +39,9 @@
       };
     };
   };
+
+  # Derp server
+  networking.firewall.allowedUDPPorts = [derpPort];
 
   environment.systemPackages = [config.services.headscale.package];
 }
