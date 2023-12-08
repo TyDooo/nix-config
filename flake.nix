@@ -95,12 +95,12 @@
 
     homeConfigurations = {
       "tygo@aerial" = lib.homeManagerConfiguration {
-        modules = [./home/aerial.nix];
+        modules = [./home/tygo/aerial.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
       "tygo@balthasar" = lib.homeManagerConfiguration {
-        modules = [./home/balthasar.nix];
+        modules = [./home/tygo/balthasar.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };

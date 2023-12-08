@@ -1,9 +1,9 @@
 {inputs, ...}: {
   imports = [
-    ./global.nix
+    ../common/global.nix
 
-    ./desktop
-    ./programs
+    ../common/desktop
+    ../common/programs
 
     inputs.spicetify-nix.homeManagerModule
   ];

@@ -9,7 +9,7 @@
     description = "Tygo Driessen";
     extraGroups = ["networkmanager" "wheel"];
 
-    openssh.authorizedKeys.keys = [(builtins.readFile ../../../../home/ssh.pub)];
+    openssh.authorizedKeys.keys = [(builtins.readFile home/ssh.pub)];
     hashedPasswordFile = config.sops.secrets.tygo-password.path;
     packages = [pkgs.home-manager];
   };
@@ -19,7 +19,7 @@
     neededForUsers = true;
   };
 
-  home-manager.users.tygo = import home/${config.networking.hostName}.nix;
+  home-manager.users.tygo = import home/tygo/${config.networking.hostName}.nix;
 
   security.pam.services.swaylock.text = "auth include login";
 }
