@@ -48,7 +48,7 @@
         privacy-badger
         bitwarden
         clearurls
-        languagetool
+        # languagetool
         kagi-search
         decentraleyes
         consent-o-matic

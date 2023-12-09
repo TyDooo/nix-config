@@ -91,6 +91,11 @@
         modules = [./hosts/balthasar];
         specialArgs = {inherit inputs outputs;};
       };
+      # Work Laptop
+      lnxclnt2839 = lib.nixosSystem {
+        modules = [./hosts/lnxclnt2839];
+        specialArgs = {inherit inputs outputs;};
+      };
     };
 
     homeConfigurations = {
@@ -101,6 +106,11 @@
       };
       "tygo@balthasar" = lib.homeManagerConfiguration {
         modules = [./home/tygo/balthasar.nix];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+      "tygdri@lnxclnt2839" = lib.homeManagerConfiguration {
+        modules = [./home/tygdri/lnxclnt2839.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
