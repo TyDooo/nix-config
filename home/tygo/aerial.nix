@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  outputs,
+  ...
+}: {
   imports = [
     ../common/global.nix
 
@@ -7,6 +11,8 @@
 
     inputs.spicetify-nix.homeManagerModule
   ];
+
+  wallpaper = outputs.wallpapers.dark;
 
   monitors = [
     {

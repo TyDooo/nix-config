@@ -80,6 +80,8 @@
       (system: pkgs: import ./shell.nix {inherit self system pkgs;});
     formatter = forEachSystem (system: pkgs: pkgs.alejandra);
 
+    wallpapers = import ./home/common/wallpapers;
+
     nixosConfigurations = {
       # Personal desktop
       aerial = lib.nixosSystem {

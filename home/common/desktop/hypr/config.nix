@@ -8,7 +8,7 @@ in {
     "waybar"
     "swww init"
   ];
-  exec = ["swww img /home/tygo/Pictures/wallpapers/dark.png"];
+  exec = ["swww img ${toString config.wallpaper}"];
   xwayland.force_zero_scaling = true;
   env = [
     "LIBVA_DRIVER_NAME,nvidia"

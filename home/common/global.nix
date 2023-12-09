@@ -32,4 +32,6 @@
     # release notes.
     stateVersion = lib.mkDefault "23.05";
   };
+
+  wallpaper = lib.mkDefault outputs.wallpapers.cat-leaves;
 }
