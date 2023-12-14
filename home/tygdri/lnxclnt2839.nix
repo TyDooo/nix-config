@@ -21,6 +21,7 @@
     gnome.gnome-calculator
     speedcrunch
     openconnect
+    sf100linux
   ];
 
   monitors = [

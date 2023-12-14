@@ -75,6 +75,7 @@
     overlays = import ./overlays {inherit inputs;};
 
     checks = forEachSystem (system: pkgs: addPrecommitCheck system);
+    packages = forEachSystem (system: pkgs: import ./pkgs {inherit pkgs;});
     devShells =
       forEachSystem
       (system: pkgs: import ./shell.nix {inherit self system pkgs;});
