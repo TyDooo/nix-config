@@ -36,11 +36,16 @@ in {
     # TODO: Check if this can be put at a nicer spot
     monitor =
       map (m: let
+        name =
+          if builtins.isNull m.desc
+          then "${m.name}"
+          else "desc:${m.desc}";
         resolution = "${toString m.width}x${toString m.height}@${toString m.refreshRate}";
         position = "${toString m.x}x${toString m.y}";
-      in "${m.name},${
+        transform = "transform,${toString m.transform}";
+      in "${name},${
         if m.enabled
-        then "${resolution},${position},1"
+        then "${resolution},${position},1,${transform}"
         else "disable"
       }")
       config.monitors;
