@@ -1,8 +1,8 @@
 switch:
-	nixos-rebuild switch --flake .#aerial --use-remote-sudo
+	nixos-rebuild switch --flake .# --use-remote-sudo
 
 debug:
-	nixos-rebuild switch --flake .#aerial --use-remote-sudo --show-trace --verbose
+	nixos-rebuild switch --flake .# --use-remote-sudo --show-trace --verbose
 
 update:
 	nix flake update
