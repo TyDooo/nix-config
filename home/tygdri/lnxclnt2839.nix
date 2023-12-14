@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     ../common/global.nix
 
@@ -9,6 +13,15 @@
   ];
 
   home.username = "tygdri";
+
+  home.packages = with pkgs; [
+    thunderbird
+    teams-for-linux
+    microcom
+    gnome.gnome-calculator
+    speedcrunch
+    openconnect
+  ];
 
   monitors = [
     {
