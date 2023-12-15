@@ -70,6 +70,15 @@
       };
     };
   in {
+    # Output all modules in ./modules/nixos to the flake. Modules should
+    # be in individual subdirectories and contain a default.nix file.
+    nixosModules = builtins.listToAttrs (map
+      (x: {
+        name = x;
+        value = import (./modules/nixos + "/${x}");
+      })
+      (builtins.attrNames (builtins.readDir ./modules/nixos)));
+
     homeManagerModules = import ./modules/home-manager;
 
     overlays = import ./overlays {inherit inputs;};
@@ -79,6 +88,8 @@
     devShells =
       forEachSystem
       (system: pkgs: import ./shell.nix {inherit self system pkgs;});
+
+    # Use Alejandra for 'nix fmt'
     formatter = forEachSystem (system: pkgs: pkgs.alejandra);
 
     wallpapers = import ./home/common/wallpapers;
@@ -86,7 +97,7 @@
     nixosConfigurations = {
       # Personal desktop
       aerial = lib.nixosSystem {
-        modules = [./hosts/aerial];
+        modules = [./hosts/aerial {imports = builtins.attrValues self.nixosModules;}];
         specialArgs = {inherit inputs outputs;};
       };
       # External server (Hetzner)

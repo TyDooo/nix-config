@@ -1,11 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./hardware-configuration.nix
 
@@ -19,6 +15,10 @@
 
   networking.hostName = "aerial";
 
+  tydooo = {
+    nvidia.enable = true;
+  };
+
   boot = {
     # Use the ZEN kernel
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
@@ -27,33 +27,7 @@
     loader.grub.gfxmodeEfi = "3440x1440";
   };
 
-  services = {
-    xserver.videoDrivers = ["nvidia"];
-    hardware.openrgb.enable = true;
-  };
-
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      # TODO: check what these do
-      nvidia-vaapi-driver
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
-  };
-
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = true; # Disable if issues with sleep/suspend
-    # open = true; # Has RTX2080 TI support
-
-    nvidiaSettings = true;
-
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
-  };
+  services.hardware.openrgb.enable = true;
 
   fileSystems = {
     "/data" = {device = "/dev/disk/by-label/games";};
