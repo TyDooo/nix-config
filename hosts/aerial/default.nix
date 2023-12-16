@@ -8,23 +8,22 @@
     ../common/global
     ../common/users/tygo
 
-    ../common/optional/desktop.nix
     ../common/optional/hyprland.nix
     ../common/optional/pipewire.nix
   ];
 
-  networking.hostName = "aerial";
-
   tydooo = {
+    desktop = {
+      enable = true;
+      hostname = "aerial";
+      gfxmodeEfi = "3440x1440";
+    };
     nvidia.enable = true;
   };
 
   boot = {
     # Use the ZEN kernel
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-
-    # Override grub gfxmodeEfi
-    loader.grub.gfxmodeEfi = "3440x1440";
   };
 
   services.hardware.openrgb.enable = true;

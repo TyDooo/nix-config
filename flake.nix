@@ -107,7 +107,7 @@
       };
       # Work Laptop
       lnxclnt2839 = lib.nixosSystem {
-        modules = [./hosts/lnxclnt2839];
+        modules = [./hosts/lnxclnt2839 {imports = builtins.attrValues self.nixosModules;}];
         specialArgs = {inherit inputs outputs;};
       };
     };
