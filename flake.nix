@@ -102,12 +102,12 @@
       };
       # External server (Hetzner)
       balthasar = lib.nixosSystem {
-        modules = [./hosts/balthasar];
+        modules = [./hosts/balthasar {imports = builtins.attrValues self.nixosModules;}];
         specialArgs = {inherit inputs outputs;};
       };
       # Home server
       amadeus = lib.nixosSystem {
-        modules = [./hosts/amadeus];
+        modules = [./hosts/amadeus {imports = builtins.attrValues self.nixosModules;}];
         specialArgs = {inherit inputs outputs;};
       };
       # Work Laptop
