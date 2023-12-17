@@ -59,7 +59,6 @@ in {
   decoration = {
     # Rounded corners
     rounding = 4;
-    multisample_edges = true;
 
     # Opacity
     active_opacity = 1.0;
