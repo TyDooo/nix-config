@@ -4,7 +4,8 @@
     package = pkgs.vscode.override {
       commandLineArgs = ''
         --enable-features=UseOzonePlatform \
-        --ozone-platform=wayland
+        --ozone-platform=wayland \
+        --password-store=gnome
       '';
     };
     enableExtensionUpdateCheck = true;
