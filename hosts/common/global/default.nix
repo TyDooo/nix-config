@@ -24,12 +24,21 @@
     config.allowUnfree = true;
   };
 
-  environment.systemPackages = with pkgs; [
-    vim
-  ];
+  environment = {
+    variables = {
+      EDITOR = "vim";
+    };
+
+    systemPackages = with pkgs; [
+      vim
+      git
+    ];
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
+
+  boot.supportedFilesystems = ["ntfs"];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
