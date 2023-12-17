@@ -78,6 +78,9 @@ in {
       printing.enable = true;
 
       gnome.gnome-keyring.enable = true;
+
+      gvfs.enable = true; # Thunar mount, trash, and other functionalities
+      tumbler.enable = true; # Thunar thumbnail support for images
     };
 
     xdg.portal = {
@@ -109,13 +112,16 @@ in {
       CLUTTER_BACKEND = "wayland";
     };
 
-    programs.thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-        thunar-media-tags-plugin
-      ];
+    programs = {
+      thunar = {
+        enable = true;
+        plugins = with pkgs.xfce; [
+          thunar-archive-plugin
+          thunar-volman
+          thunar-media-tags-plugin
+        ];
+      };
+      seahorse.enable = true;
     };
 
     hardware.opengl.enable = true;
