@@ -105,6 +105,11 @@
         modules = [./hosts/balthasar];
         specialArgs = {inherit inputs outputs;};
       };
+      # Home server
+      amadeus = lib.nixosSystem {
+        modules = [./hosts/amadeus];
+        specialArgs = {inherit inputs outputs;};
+      };
       # Work Laptop
       lnxclnt2839 = lib.nixosSystem {
         modules = [./hosts/lnxclnt2839 {imports = builtins.attrValues self.nixosModules;}];
@@ -120,6 +125,11 @@
       };
       "tygo@balthasar" = lib.homeManagerConfiguration {
         modules = [./home/tygo/balthasar.nix];
+        pkgs = pkgsFor.x86_64-linux;
+        extraSpecialArgs = {inherit inputs outputs;};
+      };
+      "tygo@amadeus" = lib.homeManagerConfiguration {
+        modules = [./home/tygo/amadeus.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };

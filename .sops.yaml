@@ -2,6 +2,7 @@ keys:
   - &admin_tygo age1z7ayn0pwy3y3tayaslxfzd867lwuxmqdd8addvags44x8f7fmq4q4f3ce5
   - &host_aerial age1jwqxgpzcqarcezyrr44jgnluhvja73hzcycpu04jr5cksr2g5veqlvrawl
   - &host_balthasar age1exce80ly2pyrwc7n5wzq96u53umgt0vnvwglcr2s5afjjan5l9dqdfcdwl
+  - &host_amadeus age17ej0qw3f93fqfsa2p6dukkqstvfglrawqz6qlc06ed067lvq4fes3g3473
   - &host_lnxclnt2839 age1zkzx6twmdtjx2pg2ursxekmrnk874tagqnq8q3pdxht5pq33r3jsm9er60
 creation_rules:
   - path_regex: hosts/aerial/secrets.ya?ml$
@@ -14,6 +15,11 @@ creation_rules:
     - age:
       - *host_balthasar
       - *admin_tygo
+  - path_regex: hosts/amadeus/secrets.ya?ml$
+    key_groups:
+    - age:
+      - *host_amadeus
+      - *admin_tygo
   - path_regex: hosts/lnxclnt2839/secrets.ya?ml$
     key_groups:
     - age:
@@ -24,5 +30,6 @@ creation_rules:
     - age:
       - *host_aerial
       - *host_balthasar
+      - *host_amadeus
       - *host_lnxclnt2839
       - *admin_tygo
