@@ -12,6 +12,10 @@
 
   networking.hostName = "amadeus"; # Define your hostname.
 
+  tydooo.services = {
+    plex.enable = true;
+  };
+
   environment.systemPackages = with pkgs; [
     mergerfs
     mergerfs-tools
