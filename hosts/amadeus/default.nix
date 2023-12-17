@@ -4,6 +4,8 @@
 
     ../common/global
     ../common/users/tygo
+
+    ./services/navidrome.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
