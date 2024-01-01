@@ -8,6 +8,7 @@
     isNormalUser = true;
     description = "Tygo Driessen";
     extraGroups = ["networkmanager" "wheel"];
+    shell = pkgs.zsh;
 
     openssh.authorizedKeys.keys = [(builtins.readFile home/ssh.pub)];
     hashedPasswordFile = config.sops.secrets.tygo-password.path;

@@ -15,6 +15,7 @@
     ./podman.nix
     ./sops.nix
     ./tailscale.nix
+    ./zsh.nix
   ];
 
   home-manager.extraSpecialArgs = {inherit inputs outputs;};

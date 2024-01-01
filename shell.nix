@@ -23,6 +23,7 @@
       home-manager
       git
       statix
+      deadnix
       alejandra
 
       sops
