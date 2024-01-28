@@ -12,7 +12,11 @@
     fd # Better find
 
     nil # Nix LSP
-    r2modman
+    p7zip
+
+    vim
+    gnumake
+    neofetch
   ];
 
   programs = {

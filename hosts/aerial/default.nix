@@ -28,6 +28,8 @@
 
   services.hardware.openrgb.enable = true;
 
+  hardware.opentabletdriver.enable = true;
+
   fileSystems = {
     "/data" = {device = "/dev/disk/by-label/games";};
     "/mnt/amadeus/data" = {

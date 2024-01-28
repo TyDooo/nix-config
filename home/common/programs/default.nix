@@ -14,19 +14,24 @@
   ];
 
   home.packages = with pkgs; [
-    vim
-    gnumake
-    neofetch
     catppuccin-cursors.mochaDark
+    r2modman
+    vlc
+    mpv
 
     # Utils
     pamixer
 
-    # Productivity
-    obsidian
+    obsidian # Note taking
+    libsForQt5.okular # PDF viewer
+    libsForQt5.gwenview # Image viewer
 
     # Screenshot
     grim
     slurp
+
+    # Remote desktop client
+    remmina
+    freerdp
   ];
 }

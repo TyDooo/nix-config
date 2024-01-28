@@ -1,6 +1,7 @@
 {
   inputs,
   outputs,
+  pkgs,
   ...
 }: {
   imports = [
@@ -10,6 +11,10 @@
     ../common/programs
 
     inputs.spicetify-nix.homeManagerModule
+  ];
+
+  home.packages = with pkgs; [
+    ark
   ];
 
   wallpaper = outputs.wallpapers.dark;

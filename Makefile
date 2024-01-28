@@ -9,6 +9,3 @@ update:
 
 history:
 	nix profile history --profile /nix/var/nix/profiles/system
-
-switch-home:
-	home-manager switch --flake .#tygo@aerial

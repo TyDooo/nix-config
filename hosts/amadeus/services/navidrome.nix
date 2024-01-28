@@ -4,9 +4,11 @@
     openFirewall = true;
     settings = {
       Address = "0.0.0.0";
-      MusicFolder = "/mnt/storage/data/media/music";
+      MusicFolder = "/mnt/array/media/music";
       EnableStarRating = false;
       ScanSchedule = "@every 1h";
     };
   };
+
+  groups.media.members = ["navidrome"];
 }

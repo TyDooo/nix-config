@@ -44,7 +44,7 @@ in {
         "9" = "九";
         "10" = "十";
       };
-      "persistent-workspaces" = {"*" = 5;};
+      # "persistent-workspaces" = {"*" = 5;};
     };
 
     "custom/logo" = {

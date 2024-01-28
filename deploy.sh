@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export NIX_SSHOPTS="-tt"
+export NIX_SSHOPTS="-t"
 
 hosts="$1"
 shift

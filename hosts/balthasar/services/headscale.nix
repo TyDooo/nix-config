@@ -1,5 +1,6 @@
 {config, ...}: let
   derpPort = 3478;
+  url = "tailscale.driessen.family";
 in {
   imports = [../../common/global/tailscale.nix];
 
@@ -9,7 +10,7 @@ in {
       port = 8085;
       address = "127.0.0.1";
       settings = {
-        server_url = "https://tailscale.tygodriessen.nl";
+        server_url = "https://${url}";
         metrics_listen_addr = "127.0.0.1:8095";
         logtail.enabled = false;
         log.level = "warn";
@@ -24,7 +25,7 @@ in {
     };
 
     nginx.virtualHosts = {
-      "tailscale.tygodriessen.nl" = {
+      "${url}" = {
         forceSSL = true;
         enableACME = true;
         locations = {
