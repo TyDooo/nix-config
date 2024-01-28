@@ -11,7 +11,7 @@ in {
     ../common/global
     ../common/users/tygo
 
-    # ./services/frigate.nix
+    ./services/frigate.nix
     ./services/navidrome.nix
     ./services/servarr.nix
     ./services/stash.nix
