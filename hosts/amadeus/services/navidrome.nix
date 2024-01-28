@@ -10,5 +10,5 @@
     };
   };
 
-  groups.media.members = ["navidrome"];
+  users.groups.media.members = ["navidrome"];
 }
