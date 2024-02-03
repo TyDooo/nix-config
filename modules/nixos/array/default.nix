@@ -120,6 +120,12 @@ in {
         };
       };
 
+    services.mover = {
+      enable = true;
+      target = cfg.poolPath;
+      cache = cfg.cache.path;
+    };
+
     # services.snapraid = {
     #   enable = true;
     #   exclude = ["/tmp/" "/lost+found/"];
