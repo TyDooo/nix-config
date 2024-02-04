@@ -41,5 +41,15 @@ in {
       openFirewall = true;
       group = "media";
     };
+
+    sabnzbd = {
+      enable = true;
+      group = "media";
+    };
+
+    jellyseerr = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 }
