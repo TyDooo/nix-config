@@ -35,6 +35,7 @@
     gamescope.enable = true;
     firefox.enable = true;
     wireshark.enable = true;
+    zsh.enable = true;
   };
 
   services.printing.enable = true;
@@ -42,8 +43,10 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tygo = {
+    description = "Tygo Driessen";
     isNormalUser = true;
-    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
+    extraGroups = ["networkmanager" "wheel"]; # Enable ‘sudo’ for the user.
+    shell = pkgs.zsh;
   };
 
   hardware.opentabletdriver.enable = true;
