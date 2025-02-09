@@ -10,6 +10,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
+    impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs = {
