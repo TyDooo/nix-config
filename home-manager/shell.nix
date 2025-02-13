@@ -1,4 +1,4 @@
-let
+{pkgs, ...}: let
   shellAliases = {
     ":q" = "exit";
     "q" = "exit";
@@ -9,37 +9,19 @@ in {
     thefuck.enable = true;
     bat.enable = true;
     fd.enable = true;
-
-    eza = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-    };
-
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-    };
-
+    eza.enable = true;
+    fzf.enable = true;
     ripgrep.enable = true;
-
-    starship = {
-      enable = true;
-      enableZshIntegration = true;
-      enableBashIntegration = true;
-    };
+    starship.enable = true;
 
     zoxide = {
       enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
+      options = ["--cmd cd"]; # Replace the cd command
     };
 
     yazi = {
       enable = true;
       enableZshIntegration = true;
-      enableBashIntegration = true;
     };
 
     zsh = {
@@ -58,7 +40,18 @@ in {
       historyLimit = 5000;
       prefix = "C-s";
       sensibleOnTop = true;
-      shell = "\${pkgs.zsh}/bin/zsh";
+      shell = "${pkgs.zsh}/bin/zsh";
+      plugins = with pkgs.tmuxPlugins; [
+        vim-tmux-navigator
+        {
+          plugin = tokyo-night-tmux;
+          extraConfig = ''
+            set -g @plugin "janoamaral/tokyo-night-tmux"
+            set -g @tokyo-night-tmux_theme night
+            set -g @tokyo-night-tmux_transparent 1
+          '';
+        }
+      ];
     };
   };
 }
