@@ -6,6 +6,7 @@
     ./greet.nix
     ./fonts.nix
     ./boot.nix
+    ./podman.nix
 
     ./hardware-configuration.nix
   ];
