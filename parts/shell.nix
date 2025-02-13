@@ -1,12 +1,18 @@
 {
-  perSystem = {pkgs, ...}: {
+  perSystem = {
+    config,
+    pkgs,
+    ...
+  }: {
     devShells.default = pkgs.mkShell {
-      packages = with pkgs; [
-        alejandra
-        nil
-        deadnix
+      packages = [
+        config.treefmt.build.wrapper
 
-        git # Required to use flakes
+        pkgs.alejandra
+        pkgs.nil
+        pkgs.deadnix
+
+        pkgs.git # Required to use flakes
       ];
     };
   };

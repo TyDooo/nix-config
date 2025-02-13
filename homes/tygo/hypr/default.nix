@@ -1,5 +1,5 @@
 {
-    imports = [
-        ./hypridle.nix
-    ];
+  imports = [
+    ./hypridle.nix
+  ];
 }
