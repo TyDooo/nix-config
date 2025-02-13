@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  outputs,
+  ...
+}: {
   imports = [
     ./nvidia.nix
     ./pipewire.nix
@@ -61,7 +65,16 @@
     helix
     git
     hyprpanel # TODO: move to home manager
+    outputs.packages.${pkgs.system}.nvim # TODO: should be a better way to do this
   ];
+
+  programs.thunar = {
+    enable = true;
+    plugins = [
+      pkgs.xfce.thunar-archive-plugin
+      pkgs.xfce.tumbler
+    ];
+  };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

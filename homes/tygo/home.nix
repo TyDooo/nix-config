@@ -46,6 +46,7 @@
     superfile
     dua
     virtualbox
+    brightnessctl
     (discord-canary.override {
       withOpenASAR = true;
     })
