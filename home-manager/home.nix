@@ -12,6 +12,7 @@
     ./git.nix
     ./helix
     ./wofi.nix
+    ./vscode.nix
   ];
 
   nixpkgs = {
@@ -49,6 +50,12 @@
       withOpenASAR = true;
     })
   ];
+
+  programs.lazygit.enable = true;
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 
   programs.home-manager.enable = true;
   news.display = "silent";
