@@ -4,7 +4,6 @@
 {
   config,
   lib,
-  pkgs,
   modulesPath,
   ...
 }: {
@@ -39,6 +38,7 @@
     device = "/dev/disk/by-uuid/a40106bd-3b4f-4970-8d1f-ad1d323131d7";
     fsType = "btrfs";
     options = ["subvol=persist" "compress=zstd" "noatime"];
+    neededForBoot = true;
   };
 
   fileSystems."/var/log" = {

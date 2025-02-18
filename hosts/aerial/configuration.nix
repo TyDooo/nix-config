@@ -11,6 +11,7 @@
     ./fonts.nix
     ./boot.nix
     ./podman.nix
+    ./impermanence.nix
 
     ./hardware-configuration.nix
   ];
@@ -74,6 +75,44 @@
       pkgs.xfce.thunar-archive-plugin
       pkgs.xfce.tumbler
     ];
+  };
+
+  services.flatpak.enable = true;
+
+  virtualisation.virtualbox.host = {
+    enable = true;
+    enableExtensionPack = true;
+    enableHardening = true;
+  };
+
+  fileSystems = let
+    commonOptions = [
+      "credentials=/home/tygo/.smbcreds"
+      "x-systemd.automount"
+      "uid=1000"
+      "gid=100"
+      "file_mode=0664"
+      "dir_mode=0775"
+      "noauto"
+    ];
+  in {
+    "/mnt/music" = {
+      device = "//192.168.50.20/music";
+      fsType = "cifs";
+      options = commonOptions;
+    };
+
+    "/mnt/media" = {
+      device = "//192.168.50.20/media";
+      fsType = "cifs";
+      options = commonOptions;
+    };
+
+    "/mnt/sauce" = {
+      device = "//192.168.50.20/sauce";
+      fsType = "cifs";
+      options = commonOptions;
+    };
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
