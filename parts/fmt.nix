@@ -1,10 +1,8 @@
 {inputs, ...}: {
   imports = [inputs.treefmt-nix.flakeModule];
   perSystem = {
-    inputs',
     config,
     pkgs,
-    lib,
     ...
   }: {
     # Use treefmt as the formatter package for `nix fmt`.
@@ -19,6 +17,8 @@
       };
 
       programs = {
+        deadnix.enable = true;
+        statix.enable = true;
         alejandra.enable = true;
         prettier = {
           enable = true;
