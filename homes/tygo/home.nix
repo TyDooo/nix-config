@@ -10,9 +10,11 @@
     ./kitty.nix
     ./shell.nix
     ./git.nix
+    ./gpg.nix
     ./helix
     ./wofi.nix
     ./vscode.nix
+    ./playerctl.nix
   ];
 
   nixpkgs = {
