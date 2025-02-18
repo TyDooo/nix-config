@@ -1,6 +1,7 @@
 {
-  pkgs,
   outputs,
+  config,
+  pkgs,
   ...
 }: {
   imports = [
@@ -13,6 +14,8 @@
     ./podman.nix
     ./impermanence.nix
     ./openssh.nix
+    ./sops.nix
+    ./user.nix
 
     ./hardware-configuration.nix
   ];
@@ -48,14 +51,6 @@
   services.printing.enable = true;
   services.fwupd.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.tygo = {
-    description = "Tygo Driessen";
-    isNormalUser = true;
-    extraGroups = ["networkmanager" "wheel"]; # Enable ‘sudo’ for the user.
-    shell = pkgs.zsh;
-  };
-
   hardware.opentabletdriver.enable = true;
 
   # List packages installed in system profile. To search, run:
@@ -86,9 +81,11 @@
     enableHardening = true;
   };
 
+  sops.secrets."users/tygo/smb-creds".sopsFile = ../secrets.yaml;
+
   fileSystems = let
     commonOptions = [
-      "credentials=/home/tygo/.smbcreds"
+      "credentials=${config.sops.secrets."users/tygo/smb-creds".path}"
       "x-systemd.automount"
       "uid=1000"
       "gid=100"

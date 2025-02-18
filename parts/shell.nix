@@ -13,6 +13,12 @@
         pkgs.deadnix
 
         pkgs.git # Required to use flakes
+
+        # SOPS related stuff
+        pkgs.sops
+        pkgs.ssh-to-age
+        pkgs.gnupg
+        pkgs.age
       ];
     };
   };
