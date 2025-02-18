@@ -12,6 +12,7 @@
     ./boot.nix
     ./podman.nix
     ./impermanence.nix
+    ./openssh.nix
 
     ./hardware-configuration.nix
   ];
