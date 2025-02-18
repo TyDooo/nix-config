@@ -6,6 +6,9 @@
     aliases = {
       st = "status";
     };
+    extraConfig = {
+      init.defaultBranch = "main";
+    };
     ignores = [
       ".direnv"
       "result"
