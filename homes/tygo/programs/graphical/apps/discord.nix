@@ -1,15 +1,4 @@
-{
-  osConfig,
-  lib,
-  pkgs,
-  ...
-}: let
-  inherit (lib) mkIf;
-  inherit (osConfig) modules;
-
-  sys = modules.system;
-  prg = sys.programs;
-
+{pkgs, ...}: let
   discord-wrapped =
     (pkgs.discord-canary.override {
       nss = pkgs.nss_latest;

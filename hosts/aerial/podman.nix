@@ -25,10 +25,6 @@
 
       defaultNetwork.settings.dns_enabled = true;
 
-      # Enable Nvidia support for Podman if the Nvidia drivers are found
-      # in the list of xserver.videoDrivers.
-      enableNvidia = builtins.any (driver: driver == "nvidia") config.services.xserver.videoDrivers;
-
       # Prune images and containers periodically
       autoPrune = {
         enable = true;
@@ -37,6 +33,11 @@
       };
     };
   };
+
+  # Enable Nvidia support for containers if the Nvidia drivers are found
+  # in the list of xserver.videoDrivers.
+  hardware.nvidia-container-toolkit.enable =
+    builtins.any (driver: driver == "nvidia") config.services.xserver.videoDrivers;
 
   environment.persistence = {
     "/persist".directories = ["/var/lib/containers"];
