@@ -7,18 +7,8 @@
 }: {
   # You can import other home-manager modules here
   imports = [
-    # If you want to use home-manager modules from other flakes (such as nix-colors):
-    # inputs.nix-colors.homeManagerModule
-
-    # You can also split up your configuration and import pieces of it here:
-    ./kitty.nix
-    ./shell.nix
-    ./git.nix
-    ./gpg.nix
-    ./helix
-    ./wofi.nix
-    ./vscode.nix
-    ./playerctl.nix
+    ./programs
+    ./services
   ];
 
   nixpkgs = {
@@ -61,17 +51,7 @@
     streamrip
     telegram-desktop
     picard
-    mpv
-    (discord-canary.override {
-      withOpenASAR = true;
-    })
   ];
-
-  programs.lazygit.enable = true;
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
 
   programs.home-manager.enable = true;
   news.display = "silent";
