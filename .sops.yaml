@@ -1,6 +1,7 @@
 keys:
   - &admin_tygo 85B0B835399023EB
   - &host_aerial age12z33lxgk5m0zv2pqze7kqmfu5rx98u7g0w2rueqp0gyqdr7r8gasy8eqd0
+  - &host_zoltraak age194edhta3976y5ycf0zeu5wdd9nnzpm32rn5lhmdxxg8tgrjx8dgq9ptvrj
 creation_rules:
   - path_regex: hosts/secrets.ya?ml$
     key_groups:
@@ -8,3 +9,4 @@ creation_rules:
       - *admin_tygo
       age:
       - *host_aerial
+      - *host_zoltraak

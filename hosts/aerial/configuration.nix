@@ -11,10 +11,7 @@
     ./greet.nix
     ./fonts.nix
     ./boot.nix
-    ./podman.nix
     ./impermanence.nix
-    ./openssh.nix
-    ./sops.nix
     ./user.nix
 
     ./hardware-configuration.nix
@@ -30,10 +27,6 @@
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
-
-  nix.settings = {
-    experimental-features = "nix-command flakes";
-  };
 
   nixpkgs.config.allowUnfree = true;
 
@@ -79,6 +72,16 @@
     enable = true;
     enableExtensionPack = true;
     enableHardening = true;
+  };
+
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      builders-use-substitutes = true;
+      experimental-features = "nix-command flakes";
+
+      trusted-users = ["root" "@wheel"];
+    };
   };
 
   sops.secrets."users/tygo/smb-creds".sopsFile = ../secrets.yaml;

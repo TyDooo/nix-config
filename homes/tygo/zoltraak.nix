@@ -1,14 +1,8 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
-{
-  outputs,
-  pkgs,
-  ...
-}: {
-  # You can import other home-manager modules here
+{outputs, ...}: {
   imports = [
-    ./programs
-    ./services
+    ./programs/terminal/editors
+    ./programs/terminal/shell
+    ./programs/terminal/tools
   ];
 
   nixpkgs = {
@@ -31,28 +25,6 @@
     username = "tygo";
     homeDirectory = "/home/tygo";
   };
-
-  home.pointerCursor = {
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Classic";
-    size = 24;
-    gtk.enable = true;
-    x11.enable = true;
-  };
-
-  home.packages = with pkgs; [
-    obsidian
-    spotify
-    easyeffects
-    pavucontrol
-    superfile
-    dua
-    brightnessctl
-    streamrip
-    telegram-desktop
-    picard
-    r2modman
-  ];
 
   programs.home-manager.enable = true;
   news.display = "silent";

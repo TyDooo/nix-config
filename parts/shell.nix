@@ -1,5 +1,6 @@
 {
   perSystem = {
+    inputs',
     config,
     pkgs,
     ...
@@ -8,9 +9,12 @@
       packages = [
         config.treefmt.build.wrapper
 
+        inputs'.deploy-rs.packages.default
+
         pkgs.alejandra
         pkgs.nil
         pkgs.deadnix
+        pkgs.nixos-anywhere
 
         pkgs.git # Required to use flakes
 
