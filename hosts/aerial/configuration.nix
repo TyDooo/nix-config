@@ -13,7 +13,6 @@
     ./boot.nix
     ./impermanence.nix
     ./nh.nix
-    ./user.nix
     ./xdg-portals.nix
 
     ./hardware-configuration.nix
@@ -96,7 +95,7 @@
     };
   };
 
-  sops.secrets."users/tygo/smb-creds".sopsFile = ../secrets.yaml;
+  sops.secrets."users/tygo/smb-creds".sopsFile = ../common/secrets.yaml;
 
   fileSystems = let
     commonOptions = [

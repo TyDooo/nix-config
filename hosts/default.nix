@@ -11,6 +11,9 @@ in {
       modules = [
         ./aerial/configuration.nix
         ./common/global
+        ./common/user.nix
+
+        inputs.home-manager.nixosModules.home-manager
         {
           nixpkgs.overlays = [inputs.hyprpanel.overlay];
         }
@@ -21,6 +24,7 @@ in {
       modules = [
         ./zoltraak/configuration.nix
         ./common/global
+        ./common/user.nix
 
         inputs.home-manager.nixosModules.home-manager
         inputs.disko.nixosModules.default

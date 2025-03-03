@@ -5,8 +5,6 @@
   ...
 }: {
   imports = [
-    ./user.nix
-
     ./hardware-configuration.nix
   ];
 
@@ -49,11 +47,6 @@
     };
 
     loader.grub.enable = true;
-  };
-
-  home-manager = {
-    useGlobalPkgs = false;
-    extraSpecialArgs = {inherit inputs outputs;};
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,

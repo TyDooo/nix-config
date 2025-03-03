@@ -26,8 +26,10 @@
     };
   };
 
+  home-manager.users.tygo = import ../../homes/tygo/${config.networking.hostName}.nix;
+
   sops.secrets."users/tygo/password" = {
-    sopsFile = ../secrets.yaml;
+    sopsFile = ./secrets.yaml;
     neededForUsers = true;
   };
 }
