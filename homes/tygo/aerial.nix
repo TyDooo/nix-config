@@ -63,6 +63,23 @@
     kdePackages.kimageformats
     kdePackages.kdegraphics-thumbnailers
 
+    # Libraries and programs to ensure
+    # that QT applications load without issues, e.g. missing libs.
+    libsForQt5.qt5.qtwayland # qt5
+    kdePackages.qtwayland # qt6
+    qt6.qtwayland
+    kdePackages.qqc2-desktop-style
+
+    # qt5ct/qt6ct for configuring QT apps imperatively
+    libsForQt5.qt5ct
+    kdePackages.qt6ct
+
+    # Some KDE applications such as Dolphin try to fall back to Breeze
+    # theme icons. Lets make sure they're also found.
+    libsForQt5.breeze-qt5
+    kdePackages.breeze-icons
+    qt6.qtsvg # needed to load breeze icons
+
     # Okular needs ghostscript to import PostScript files as PDFs
     # so we add ghostscript_headless as a dependency
     (symlinkJoin {
