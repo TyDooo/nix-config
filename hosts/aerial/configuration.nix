@@ -12,7 +12,9 @@
     ./fonts.nix
     ./boot.nix
     ./impermanence.nix
+    ./nh.nix
     ./user.nix
+    ./xdg-portals.nix
 
     ./hardware-configuration.nix
   ];
@@ -46,17 +48,27 @@
 
   hardware.opentabletdriver.enable = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    kitty
-    helix
-    git
-    hyprpanel # TODO: move to home manager
-    outputs.packages.${pkgs.system}.nvim # TODO: should be a better way to do this
-  ];
+  environment = {
+    variables = {
+      _JAVA_AWT_WM_NONEREPARENTING = "1";
+      NIXOS_OZONE_WL = "1";
+      GDK_BACKEND = "wayland,x11";
+      MOZ_ENABLE_WAYLAND = "1";
+      XDG_SESSION_TYPE = "wayland";
+      SDL_VIDEODRIVER = "wayland";
+      CLUTTER_BACKEND = "wayland";
+    };
+
+    systemPackages = with pkgs; [
+      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      wget
+      kitty
+      helix
+      git
+      hyprpanel # TODO: move to home manager
+      outputs.packages.${pkgs.system}.nvim # TODO: should be a better way to do this
+    ];
+  };
 
   programs.thunar = {
     enable = true;

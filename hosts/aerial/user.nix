@@ -8,7 +8,19 @@
     users.tygo = {
       description = "Tygo Driessen";
       isNormalUser = true;
-      extraGroups = ["networkmanager" "wheel" "users" "podman"];
+      extraGroups = [
+        "wheel"
+        "systemd-journal"
+        "audio"
+        "video"
+        "input"
+        "plugdev"
+        "networkmanager"
+        "users"
+        "podman"
+        "git"
+        "libvirtd"
+      ];
       shell = pkgs.zsh;
       hashedPasswordFile = config.sops.secrets."users/tygo/password".path;
     };

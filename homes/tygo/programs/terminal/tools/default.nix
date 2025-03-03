@@ -7,6 +7,7 @@
     ./git.nix
     ./gpg.nix
     ./lazygit.nix
+    ./nix-index.nix
     ./ripgrep.nix
     ./thefuck.nix
     ./tmux.nix

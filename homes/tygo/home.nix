@@ -7,6 +7,7 @@
 }: {
   # You can import other home-manager modules here
   imports = [
+    ./misc
     ./programs
     ./services
   ];
@@ -52,6 +53,25 @@
     telegram-desktop
     picard
     r2modman
+
+    # plasma meuk
+    kdePackages.dolphin
+    kdePackages.dolphin-plugins
+    kdePackages.ark
+    kdePackages.kio
+    kdePackages.kio-extras
+    kdePackages.kimageformats
+    kdePackages.kdegraphics-thumbnailers
+
+    # Okular needs ghostscript to import PostScript files as PDFs
+    # so we add ghostscript_headless as a dependency
+    (symlinkJoin {
+      name = "Okular";
+      paths = with pkgs; [
+        kdePackages.okular
+        ghostscript_headless
+      ];
+    })
   ];
 
   programs.home-manager.enable = true;
