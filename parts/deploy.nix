@@ -6,7 +6,7 @@
   flake.deploy = {
     nodes = {
       zoltraak = {
-        hostname = "167.235.133.48";
+        hostname = "zoltraak";
         profiles.system = {
           sshUser = "tygo";
           user = "root";

@@ -22,6 +22,8 @@
         "libvirtd"
       ];
       shell = pkgs.zsh;
+
+      openssh.authorizedKeys.keys = [(builtins.readFile ./ssh.pub)];
       hashedPasswordFile = config.sops.secrets."users/tygo/password".path;
     };
   };

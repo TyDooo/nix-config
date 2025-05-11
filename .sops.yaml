@@ -1,12 +1,12 @@
 keys:
   - &admin_tygo 85B0B835399023EB
   - &host_aerial age12z33lxgk5m0zv2pqze7kqmfu5rx98u7g0w2rueqp0gyqdr7r8gasy8eqd0
-  - &host_zoltraak age194edhta3976y5ycf0zeu5wdd9nnzpm32rn5lhmdxxg8tgrjx8dgq9ptvrj
+  - &host_zoltraak age1ngxhg60qtfjjr7hpptuecny5lvfws6hydc7pkg5c7vg5caqn45dsp8hquf
 creation_rules:
-  - path_regex: hosts/secrets.ya?ml$
+  - path_regex: hosts/common/secrets.ya?ml$
     key_groups:
-    - pgp:
-      - *admin_tygo
-      age:
-      - *host_aerial
-      - *host_zoltraak
+      - pgp:
+          - *admin_tygo
+        age:
+          - *host_aerial
+          - *host_zoltraak

@@ -1,5 +1,4 @@
 {
-  inputs,
   outputs,
   pkgs,
   ...
@@ -46,7 +45,7 @@
       supportedFilesystems = ["btrfs"];
     };
 
-    loader.grub.enable = true;
+    loader.systemd-boot.enable = true;
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
