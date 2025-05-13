@@ -10,3 +10,9 @@ creation_rules:
         age:
           - *host_aerial
           - *host_zoltraak
+  - path_regex: hosts/zoltraak/secrets.ya?ml$
+    key_groups:
+      - pgp:
+          - *admin_tygo
+        age:
+          - *host_zoltraak
