@@ -12,9 +12,7 @@
       projectRootFile = "flake.nix";
       enableDefaultExcludes = true;
 
-      settings = {
-        global.excludes = [".envrc"];
-      };
+      settings.global.excludes = ["*.{asc,pub,envrc,gitignore}"];
 
       programs = {
         deadnix.enable = true;
