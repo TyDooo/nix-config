@@ -19,6 +19,20 @@ in {
         }
       ];
     };
+
+    catastravia = inputs.nixpkgs.lib.nixosSystem {
+      specialArgs = {inherit inputs outputs;};
+      modules = [
+        ./catastravia/configuration.nix
+        ./common/global
+        ./common/user.nix
+
+        inputs.home-manager.nixosModules.home-manager
+        inputs.disko.nixosModules.default
+        ./catastravia/disko.nix
+      ];
+    };
+
     zoltraak = inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs outputs;};
       modules = [

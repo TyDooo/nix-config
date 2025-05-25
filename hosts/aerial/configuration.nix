@@ -26,11 +26,6 @@
     firewall.allowedTCPPorts = [57621];
   };
 
-  # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
-
-  nixpkgs.config.allowUnfree = true;
-
   programs = {
     steam = {
       enable = true;
@@ -39,7 +34,6 @@
     gamescope.enable = true;
     firefox.enable = true;
     wireshark.enable = true;
-    zsh.enable = true;
   };
 
   services.printing.enable = true;
@@ -59,7 +53,6 @@
     };
 
     systemPackages = with pkgs; [
-      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
       wget
       kitty
       helix
@@ -83,16 +76,6 @@
     enable = true;
     enableExtensionPack = true;
     enableHardening = true;
-  };
-
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      builders-use-substitutes = true;
-      experimental-features = "nix-command flakes";
-
-      trusted-users = ["root" "@wheel"];
-    };
   };
 
   sops.secrets."users/tygo/smb-creds".sopsFile = ../common/secrets.yaml;

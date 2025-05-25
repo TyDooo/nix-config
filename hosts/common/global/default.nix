@@ -8,7 +8,10 @@
     ./openssh.nix
     ./podman.nix
     ./sops.nix
+    ./nix.nix
   ];
+
+  time.timeZone = "Europe/Amsterdam";
 
   home-manager = {
     useGlobalPkgs = false;
