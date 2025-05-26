@@ -17,7 +17,6 @@
       trouble.enable = true;
       lspSignature.enable = true;
       otter-nvim.enable = true;
-      lsplines.enable = true;
       nvim-docs-view.enable = true;
     };
 
@@ -29,7 +28,6 @@
     };
 
     languages = {
-      enableLSP = true;
       enableFormat = true;
       enableTreesitter = true;
       enableExtraDiagnostics = true;
@@ -45,6 +43,8 @@
       tailwind.enable = true;
       svelte.enable = true;
     };
+
+    lsp.enable = true;
 
     visuals = {
       nvim-scrollbar.enable = true;

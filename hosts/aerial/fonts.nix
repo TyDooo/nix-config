@@ -24,7 +24,7 @@
 
       # programming fonts
       sarasa-gothic
-      (nerdfonts.override {fonts = ["JetBrainsMono"];})
+      nerd-fonts.jetbrains-mono
 
       # desktop fonts
       corefonts # MS fonts
