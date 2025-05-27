@@ -1,16 +1,16 @@
 {
   outputs,
+  config,
   pkgs,
   ...
 }: {
   imports = [
-    ./hardware-configuration.nix
-
-    ./services/pangolin.nix
+    ./services/navidrome.nix
+    ./services/jellyfin.nix
   ];
 
   networking = {
-    hostName = "catastravia";
+    hostName = "zoltraak";
     networkmanager.enable = true;
   };
 
@@ -27,7 +27,42 @@
       supportedFilesystems = ["btrfs"];
     };
 
-    loader.grub.enable = true;
+    loader.systemd-boot.enable = true;
+  };
+
+  fileSystems = let
+    commonOptions = [
+      "credentials=${config.sops.secrets."smb-creds".path}"
+      "x-systemd.automount"
+      "uid=2000"
+      "gid=2000"
+      "file_mode=0664"
+      "dir_mode=0775"
+      "noauto"
+    ];
+  in {
+    "/mnt/music" = {
+      device = "//192.168.50.20/music";
+      fsType = "cifs";
+      options = commonOptions;
+    };
+
+    "/mnt/media" = {
+      device = "//192.168.50.20/media";
+      fsType = "cifs";
+      options = commonOptions;
+    };
+  };
+
+  sops.secrets."smb-creds".sopsFile = ./secrets.yaml;
+
+  users = {
+    users.shared = {
+      isSystemUser = true;
+      group = "shared";
+      uid = 2000;
+    };
+    groups.shared.gid = 2000;
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
