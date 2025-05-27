@@ -9,8 +9,6 @@
         ./parts
         ./hosts
       ];
-
-      flake.overlays = import ./overlays {inherit inputs;};
     };
 
   inputs = {
