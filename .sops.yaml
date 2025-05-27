@@ -18,3 +18,9 @@ creation_rules:
           - *admin_tygo
         age:
           - *host_zoltraak
+  - path_regex: hosts/catastravia/secrets.ya?ml$
+    key_groups:
+      - pgp:
+          - *admin_tygo
+        age:
+          - *host_catastravia

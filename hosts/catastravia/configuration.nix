@@ -5,6 +5,8 @@
 }: {
   imports = [
     ./hardware-configuration.nix
+
+    ./services/pangolin.nix
   ];
 
   networking = {
