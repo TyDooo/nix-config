@@ -8,7 +8,6 @@
       imports = [
         ./parts
         ./hosts
-        ./homes
       ];
 
       flake.overlays = import ./overlays {inherit inputs;};
