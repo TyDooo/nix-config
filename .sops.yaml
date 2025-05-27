@@ -12,6 +12,14 @@ creation_rules:
           - *host_aerial
           - *host_zoltraak
           - *host_catastravia
+  - path_regex: users/[^/]+/secrets.ya?ml$
+    key_groups:
+      - pgp:
+          - *admin_tygo
+        age:
+          - *host_aerial
+          - *host_zoltraak
+          - *host_catastravia
   - path_regex: hosts/zoltraak/secrets.ya?ml$
     key_groups:
       - pgp:

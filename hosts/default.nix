@@ -22,7 +22,7 @@
 
         [
           ./common/global
-          ./common/user.nix
+          ../users/tygo/user.nix
 
           (./. + "/${hostname}/host.nix")
           (./. + "/${hostname}/disko.nix")
