@@ -1,7 +1,5 @@
 {
   imports = [
-    ./graphical
-    ./media
     ./terminal
   ];
 }

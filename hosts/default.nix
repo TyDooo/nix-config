@@ -38,22 +38,6 @@
     };
 in {
   flake.nixosConfigurations = {
-    aerial = inputs.nixpkgs.lib.nixosSystem {
-      # TODO: use mkHost when a disko config has been added
-
-      specialArgs = {inherit inputs outputs;};
-      modules = [
-        ./aerial/configuration.nix
-        ./common/global
-        ./common/user.nix
-
-        inputs.home-manager.nixosModules.home-manager
-        {
-          nixpkgs.overlays = [inputs.hyprpanel.overlay];
-        }
-      ];
-    };
-
     catastravia = mkHost {
       hostname = "catastravia";
       system = "x86_64-linux";

@@ -1,8 +1,6 @@
 {outputs, ...}: {
   imports = [
-    ./programs/terminal/editors
-    ./programs/terminal/shell
-    ./programs/terminal/tools
+    ./programs
   ];
 
   nixpkgs = {
