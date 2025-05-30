@@ -1,0 +1,21 @@
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 22b478b..87438aa 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -1,6 +1,6 @@
+ import type { Metadata } from "next";
+ import "./globals.css";
+-import { Inter } from "next/font/google";
++import localFont from "next/font/local";
+ import { Toaster } from "@/components/ui/toaster";
+ import { ThemeProvider } from "@app/providers/ThemeProvider";
+ import EnvProvider from "@app/providers/EnvProvider";
+@@ -22,7 +22,7 @@ export const metadata: Metadata = {
+ export const dynamic = "force-dynamic";
+ 
+ // const font = Figtree({ subsets: ["latin"] });
+-const font = Inter({ subsets: ["latin"] });
++const font = localFont({ src: './Inter.ttf' });
+ 
+ export default async function RootLayout({
+     children

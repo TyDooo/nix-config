@@ -1,143 +1,353 @@
 {
   config,
+  utils,
+  self',
   pkgs,
-  lib,
   ...
 }: let
   dataDir = "/var/lib/fossorial";
-  network = "fossorial";
+
+  domainName = "driessen.family";
+  baseEndpoint = "pangolin.${domainName}";
+  dashboardUrl = "https://${baseEndpoint}";
+
+  portExternal = 3000;
+  portInternal = 3001;
+  portNext = 3002;
+  portGerbil = 3003;
+
+  host = "localhost";
+
+  configFormat = pkgs.formats.yaml {};
+  pangolinConfig = {
+    app = {
+      dashboard_url = dashboardUrl;
+      log_level = "info";
+      save_logs = false;
+    };
+    domains = {
+      domain1 = {
+        base_domain = domainName;
+        cert_resolver = "letsencrypt";
+        prefer_wildcard_cert = true;
+      };
+    };
+    server = {
+      external_port = portExternal;
+      internal_port = portInternal;
+      next_port = portNext;
+      internal_hostname = host;
+      session_cookie_name = "p_session_token";
+      resource_access_token_param = "p_token";
+      resource_session_request_param = "p_session_request";
+      cors = {
+        origins = [dashboardUrl];
+        methods = ["GET" "POST" "PUT" "DELETE" "PATCH"];
+        headers = ["X-CSRF-Token" "Content-Type"];
+        credentials = false;
+      };
+      resource_access_token_headers = {
+        id = "P-Access-Token-Id";
+        token = "P-Access-Token";
+      };
+    };
+    traefik = {
+      cert_resolver = "letsencrypt";
+      http_entrypoint = "web";
+      https_entrypoint = "websecure";
+    };
+    users.server_admin = {
+      # The email and password are provided through environment variables
+    };
+    gerbil = {
+      start_port = 51820;
+      base_endpoint = baseEndpoint;
+      use_subdomain = false;
+      block_size = 24;
+      site_block_size = 30;
+      subnet_group = "100.89.137.0/20";
+    };
+    rate_limits = {
+      global = {
+        window_minutes = 1;
+        max_requests = 100;
+      };
+    };
+    flags = {
+      require_email_verification = false;
+      disable_signup_without_invite = true;
+      disable_user_create_org = false;
+      allow_raw_resources = true;
+      allow_base_domain_resources = true;
+    };
+  };
 in {
   networking.firewall = {
     allowedTCPPorts = [80 443]; # Traefik
     allowedUDPPorts = [51820]; # Wireguard
   };
 
-  # For now, I use containers to run Pangolin. In the future, I either want to
-  # switch to native services, or set-up my own tunneled reverse proxy solution
-  # using wireguard.
-
-  ############
-  # Pangolin
-  ############
-
-  virtualisation.oci-containers.containers."pangolin" = {
-    image = "fosrl/pangolin:1.3.0";
-    volumes = ["${dataDir}/config:/app/config"];
-    extraOptions = ["--network=${network}"];
-  };
-
-  systemd.services."podman-pangolin" = {
-    serviceConfig = {
-      Restart = lib.mkOverride 500 "always";
+  systemd.tmpfiles.settings.fossorialDirs = {
+    "${dataDir}"."d" = {
+      mode = "700";
+      user = "fossorial";
+      group = "fossorial";
     };
-    after = ["podman-network-fossorial.service"];
-    requires = ["podman-network-fossorial.service"];
-    partOf = ["podman-fossorial-root.target"];
-    wantedBy = ["podman-fossorial-root.target"];
-  };
-
-  ############
-  # Gerbil
-  ############
-
-  virtualisation.oci-containers.containers."gerbil" = {
-    image = "fosrl/gerbil:1.0.0";
-    capabilities = {
-      NET_ADMIN = true;
-      SYS_MODULE = true;
+    "${dataDir}/config"."d" = {
+      mode = "700";
+      user = "fossorial";
+      group = "fossorial";
     };
-    ports = [
-      "51820:51820/udp"
-      "443:443"
-      "80:80"
-    ];
-    extraOptions = ["--network=${network}"];
-    volumes = ["${dataDir}/config:/var/config"];
-    cmd = [
-      "--reachableAt=http://gerbil:3003"
-      "--generateAndSaveKeyTo=/var/config/key"
-      "--remoteConfig=http://pangolin:3001/api/v1/gerbil/get-config"
-      "--reportBandwidthTo=http://pangolin:3001/api/v1/gerbil/receive-bandwidth"
-    ];
   };
 
-  systemd.services."podman-gerbil" = {
-    serviceConfig = {
-      Restart = lib.mkOverride 500 "always";
+  systemd.services = {
+    pangolin = {
+      description = "Pangolin Service";
+      after = ["network.target"];
+      wantedBy = ["multi-user.target"];
+      before = ["traefik.service"];
+      requiredBy = ["traefik.service"];
+
+      preStart = ''
+        ln -sf ${configFormat.generate "config.yml" pangolinConfig} config/config.yml
+      '';
+
+      serviceConfig = {
+        User = "fossorial";
+        Group = "fossorial";
+        WorkingDirectory = dataDir;
+        EnvironmentFile = config.sops.templates."pangolin.env".path;
+        Restart = "always";
+
+        BindPaths = [
+          "${self'.packages.pangolin}/.next:${dataDir}/.next"
+          "${self'.packages.pangolin}/public:${dataDir}/public"
+          "${self'.packages.pangolin}/dist:${dataDir}/dist"
+          "${self'.packages.pangolin}/node_modules:${dataDir}/node_modules"
+        ];
+
+        ExecStartPre = utils.escapeSystemdExecArgs [
+          "${self'.packages.pangolin}/bin/pangolin-migrate"
+        ];
+        ExecStart = utils.escapeSystemdExecArgs [
+          "${self'.packages.pangolin}/bin/pangolin"
+        ];
+      };
     };
-    after = [
-      "podman-network-fossorial.service"
-      "podman-pangolin.service"
-    ];
-    requires = [
-      "podman-network-fossorial.service"
-      "podman-pangolin.service"
-    ];
-    partOf = ["podman-fossorial-root.target"];
-    wantedBy = ["podman-fossorial-root.target"];
+
+    gerbil = {
+      description = "Gerbil Service";
+      after = [
+        "network.target"
+        "pangolin.service"
+      ];
+      wantedBy = ["multi-user.target"];
+      requires = ["pangolin.service"];
+      before = ["traefik.service"];
+      requiredBy = ["traefik.service"];
+      serviceConfig = {
+        User = "fossorial";
+        Group = "fossorial";
+        WorkingDirectory = dataDir;
+        Restart = "always";
+        AmbientCapabilities = ["CAP_NET_ADMIN" "CAP_SYS_MODULE"];
+        CapabilityBoundingSet = ["CAP_NET_ADMIN" "CAP_SYS_MODULE"];
+
+        ExecStart = utils.escapeSystemdExecArgs [
+          "${self'.packages.gerbil}/bin/gerbil"
+          "--reachableAt=http://${host}:${builtins.toString portGerbil}"
+          "--generateAndSaveKeyTo=${dataDir}/config/key"
+          "--remoteConfig=http://${host}:${builtins.toString portInternal}/api/v1/gerbil/get-config"
+          "--reportBandwidthTo=http://${host}:${builtins.toString portInternal}/api/v1/gerbil/receive-bandwidth"
+          "--interface=gerbil-wg0"
+        ];
+      };
+    };
   };
 
-  ############
-  # Traefik
-  ############
-
-  virtualisation.oci-containers.containers."traefik" = {
-    image = "traefik:v3.3.3";
+  services.traefik = {
+    enable = true;
     environmentFiles = [config.sops.templates."traefik.env".path];
-    volumes = [
-      "${dataDir}/config/traefik:/etc/traefik:ro"
-      "${dataDir}/config/letsencrypt:/letsencrypt"
-      "${dataDir}/config/traefik/logs:/var/log/traefik"
-    ];
-    extraOptions = ["--network=container:gerbil"];
-    cmd = ["--configFile=/etc/traefik/traefik_config.yml"];
+    staticConfigOptions = {
+      accessLog = {
+        bufferingSize = 100;
+        fields = {
+          defaultMode = "drop";
+          headers = {
+            defaultMode = "drop";
+            names = {
+              Authorization = "redact";
+              Content-Type = "keep";
+              Cookie = "redact";
+              User-Agent = "keep";
+              X-Forwarded-For = "keep";
+              X-Forwarded-Proto = "keep";
+              X-Real-Ip = "keep";
+            };
+          };
+          names = {
+            ClientAddr = "keep";
+            ClientHost = "keep";
+            DownstreamContentSize = "keep";
+            DownstreamStatus = "keep";
+            Duration = "keep";
+            RequestMethod = "keep";
+            RequestPath = "keep";
+            RequestProtocol = "keep";
+            RetryAttempts = "keep";
+            ServiceName = "keep";
+            StartUTC = "keep";
+            TLSCipher = "keep";
+            TLSVersion = "keep";
+          };
+        };
+        filePath = "${config.services.traefik.dataDir}/logs/access.log";
+        filters = {
+          minDuration = "100ms";
+          retryAttempts = true;
+          statusCodes = ["200-299" "400-499" "500-599"];
+        };
+        format = "json";
+      };
+      api = {
+        dashboard = true;
+        insecure = true;
+      };
+      certificatesResolvers = {
+        letsencrypt = {
+          acme = {
+            caServer = "https://acme-v02.api.letsencrypt.org/directory";
+            email = "acme@tygo.driessen.family";
+            dnsChallenge = {provider = "cloudflare";};
+            storage = "${config.services.traefik.dataDir}/acme.json";
+          };
+        };
+      };
+      entryPoints = {
+        web.address = ":80";
+        websecure = {
+          address = ":443";
+          http.tls.certResolver = "letsencrypt";
+          transport.respondingTimeouts.readTimeout = "30m";
+        };
+      };
+      experimental = {
+        plugins = {
+          badger = {
+            moduleName = "github.com/fosrl/badger";
+            version = "v1.1.0";
+          };
+        };
+      };
+      log = {
+        format = "json";
+        level = "INFO";
+      };
+      providers = {
+        http = {
+          endpoint = "http://${host}:${builtins.toString portInternal}/api/v1/traefik-config";
+          pollInterval = "5s";
+        };
+        # The dynamic config is automatically added by the nix module
+      };
+      serversTransport.insecureSkipVerify = true;
+    };
+    dynamicConfigOptions = {
+      http = {
+        middlewares = {
+          default-whitelist.ipWhiteList.sourceRange = ["10.0.0.0/8" "192.168.0.0/16" "172.16.0.0/12"];
+          redirect-to-https.redirectScheme.scheme = "https";
+          security-headers = {
+            headers = {
+              contentTypeNosniff = true;
+              customFrameOptionsValue = "SAMEORIGIN";
+              customResponseHeaders = {
+                Server = "";
+                X-Forwarded-Proto = "https";
+                X-Powered-By = "";
+              };
+              forceSTSHeader = true;
+              hostsProxyHeaders = ["X-Forwarded-Host"];
+              referrerPolicy = "strict-origin-when-cross-origin";
+              sslProxyHeaders.X-Forwarded-Proto = "https";
+              stsIncludeSubdomains = true;
+              stsPreload = true;
+              stsSeconds = 63072000;
+            };
+          };
+        };
+        routers = {
+          api-router = {
+            entryPoints = ["websecure"];
+            middlewares = ["security-headers"];
+            rule = "Host(`${baseEndpoint}`) && PathPrefix(`/api/v1`)";
+            service = "api-service";
+            tls.certResolver = "letsencrypt";
+          };
+          main-app-router-redirect = {
+            entryPoints = ["web"];
+            middlewares = ["redirect-to-https"];
+            rule = "Host(`${baseEndpoint}`)";
+            service = "next-service";
+          };
+          next-router = {
+            entryPoints = ["websecure"];
+            middlewares = ["security-headers"];
+            rule = "Host(`${baseEndpoint}`) && !PathPrefix(`/api/v1`)";
+            service = "next-service";
+            tls = {
+              certResolver = "letsencrypt";
+              domains = [
+                {
+                  main = domainName;
+                  sans = ["*.${domainName}"];
+                }
+              ];
+            };
+          };
+          ws-router = {
+            entryPoints = ["websecure"];
+            middlewares = ["security-headers"];
+            rule = "Host(`${baseEndpoint}`)";
+            service = "api-service";
+            tls.certResolver = "letsencrypt";
+          };
+        };
+        services = {
+          api-service.loadBalancer.servers = [{url = "http://${host}:${builtins.toString portExternal}";}];
+          next-service.loadBalancer.servers = [{url = "http://${host}:${builtins.toString portNext}";}];
+        };
+      };
+    };
   };
 
-  systemd.services."podman-traefik" = {
-    serviceConfig = {
-      Restart = lib.mkOverride 500 "always";
-    };
-    after = [
-      "podman-pangolin.service"
-      "podman-gerbil.service"
-    ];
-    requires = [
-      "podman-pangolin.service"
-      "podman-gerbil.service"
-    ];
-    partOf = ["podman-fossorial-root.target"];
-    wantedBy = ["podman-fossorial-root.target"];
+  # https://github.com/NixOS/nixpkgs/issues/265496
+  systemd.services.traefik.serviceConfig.WorkingDirectory = "/var/lib/traefik";
+
+  sops.secrets = {
+    # TODO: set a default SOPS file
+    cloudflare_api_key = {sopsFile = ../secrets.yaml;};
+    "pangolin/secret" = {sopsFile = ../secrets.yaml;};
+    "pangolin/admin/email" = {sopsFile = ../secrets.yaml;};
+    "pangolin/admin/password" = {sopsFile = ../secrets.yaml;};
   };
 
-  # Networks - create and destroy podman network
-  systemd.services."podman-network-fossorial" = {
-    path = [pkgs.podman];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStop = "${pkgs.podman}/bin/podman network rm -f ${network}";
-    };
-    script = ''
-      podman network inspect ${network} || podman network create ${network}
+  sops.templates = {
+    "traefik.env".content = ''
+      CLOUDFLARE_DNS_API_TOKEN=${config.sops.placeholder.cloudflare_api_key}
     '';
-    partOf = ["podman-fossorial-root.target"];
-    wantedBy = ["podman-fossorial-root.target"];
+
+    "pangolin.env".content = ''
+      SERVER_SECRET=${config.sops.placeholder."pangolin/secret"}
+      USERS_SERVERADMIN_EMAIL=${config.sops.placeholder."pangolin/admin/email"}
+      USERS_SERVERADMIN_PASSWORD=${config.sops.placeholder."pangolin/admin/password"}
+    '';
   };
 
-  # Root target - allows starting/stopping all connected services at once
-  systemd.targets."podman-fossorial-root" = {
-    unitConfig = {
-      Description = "Root target for fossorial services.";
-    };
-    wantedBy = ["multi-user.target"];
+  users.users.fossorial = {
+    name = "fossorial";
+    group = "fossorial";
+    isSystemUser = true;
   };
-
-  # Secrets
-  sops.secrets.cloudflare_api_key = {
-    sopsFile = ../secrets.yaml; # TODO: check if needed
-  };
-
-  sops.templates."traefik.env".content = ''
-    CLOUDFLARE_DNS_API_TOKEN=${config.sops.placeholder.cloudflare_api_key}
-  '';
+  users.groups.fossorial = {};
 }

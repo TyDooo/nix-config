@@ -2,6 +2,7 @@
   lib,
   self,
   inputs,
+  withSystem,
   ...
 }: let
   inherit (self) outputs;
@@ -12,30 +13,33 @@
     system,
     ...
   } @ args:
-    inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs outputs;};
-      modules = concatLists [
-        (singleton {
-          networking.hostName = hostname;
-          nixpkgs.hostPlatform = lib.mkDefault system;
-        })
+    withSystem system (
+      {self', ...}:
+        inputs.nixpkgs.lib.nixosSystem {
+          specialArgs = {inherit inputs outputs self';};
+          modules = concatLists [
+            (singleton {
+              networking.hostName = hostname;
+              nixpkgs.hostPlatform = lib.mkDefault system;
+            })
 
-        [
-          ./common/global
-          ../users/tygo/user.nix
+            [
+              ./common/global
+              ../users/tygo/user.nix
 
-          (./. + "/${hostname}/host.nix")
-          (./. + "/${hostname}/disko.nix")
-          (./. + "/${hostname}/hardware.nix")
+              (./. + "/${hostname}/host.nix")
+              (./. + "/${hostname}/disko.nix")
+              (./. + "/${hostname}/hardware.nix")
 
-          inputs.home-manager.nixosModules.home-manager
-          inputs.disko.nixosModules.default
-        ]
+              inputs.home-manager.nixosModules.home-manager
+              inputs.disko.nixosModules.default
+            ]
 
-        # Optinally allow per host modules
-        (args.modules or [])
-      ];
-    };
+            # Optinally allow per host modules
+            (args.modules or [])
+          ];
+        }
+    );
 in {
   flake.nixosConfigurations = {
     catastravia = mkHost {
