@@ -1,4 +1,8 @@
-# TyDooo's Nix Config
+<h1 id="header" align="center">
+    <img src=".github/assets/logo.png" width="200px" height="200px" />
+    <br/>
+    TyDooo's Nix Config
+</h1>
 
 ![NixOS](https://img.shields.io/badge/NixOS-24.11-blue.svg)
 ![System Architecture](https://img.shields.io/badge/arch-x86__64--linux-lightgrey)
@@ -11,7 +15,7 @@ setup, and application configurations.
 
 - 🏠 Home Manager configuration for user environment
 - 🔒 Secret management with [sops-nix](https://github.com/Mic92/sops-nix)
-- 📝 Neovim configuration using [nvf](https://github.com/NotAShelf/nvf)
+- 📝 [Neovim configuration](/parts/nvim/) using [nvf](https://github.com/NotAShelf/nvf)
 - 💻 Multi-host configuration with shared modules
 - 🔄 Automated system deployment with **nixos-anywhere**
 - 💾 Disk partitioning and formatting with **disko**
@@ -29,11 +33,11 @@ A host can be configured remotely using nixos-anywhere and disko.
 install -d -m755 "./tmp/persist/etc/ssh"
 
 # Generate the desired SSH keys in the created directory
-ssh-keygen -t ed25519 -f "./tmp/persist/etc/ssh/ssh_host_ed25519_key" -N ""
-ssh-keygen -t rsa -b 4096 -f "./tmp/persist/etc/ssh/ssh_host_rsa_key" -N ""
+ssh-keygen -t ed25519 -f "./tmp/persist/etc/ssh/ssh_host_ed25519_key" -N "" -C "<USER>@<HOST>"
+ssh-keygen -t rsa -b 4096 -f "./tmp/persist/etc/ssh/ssh_host_rsa_key" -N "" -C "<USER>@<HOST>"
 
 # Ensure that the SSH keys have the appropriate permissions
-chmod 600 ./tmp/etc/ssh/*
+chmod 600 ./tmp/persist/etc/ssh/*
 ```
 
 2. Update the SOPS config (`.sops.yaml`) with the newly generated key
