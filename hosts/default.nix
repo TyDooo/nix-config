@@ -26,10 +26,11 @@
             [
               ./common/global
               ../users/tygo/user.nix
+              ../users/root/user.nix
 
-              (./. + "/${hostname}/host.nix")
-              (./. + "/${hostname}/disko.nix")
-              (./. + "/${hostname}/hardware.nix")
+              ./${hostname}/host.nix
+              ./${hostname}/disko.nix
+              ./${hostname}/hardware.nix
 
               inputs.home-manager.nixosModules.home-manager
               inputs.disko.nixosModules.default
@@ -44,6 +45,11 @@ in {
   flake.nixosConfigurations = {
     catastravia = mkHost {
       hostname = "catastravia";
+      system = "x86_64-linux";
+    };
+
+    judradjim = mkHost {
+      hostname = "judradjim";
       system = "x86_64-linux";
     };
 
