@@ -1,14 +1,14 @@
 {
-  outputs,
+  self',
   pkgs,
   ...
 }: {
   imports = [
     ./services/pangolin.nix
+    ./services/uptime-kuma.nix
   ];
 
   networking = {
-    hostName = "catastravia";
     networkmanager.enable = true;
   };
 
@@ -16,7 +16,7 @@
     wget
     helix
     git
-    outputs.packages.${pkgs.system}.nvim # TODO: should be a better way to do this
+    self'.packages.nvim
   ];
 
   boot = {
