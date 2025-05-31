@@ -98,7 +98,7 @@
   };
 
   swapDevices = [
-    {device = "/dev/disk/by-partlabel/swap";}
+    {device = "/dev/disk/by-partlabel/disk-nvme0-swap";}
   ];
 
   fileSystems."/persist".neededForBoot = true;
