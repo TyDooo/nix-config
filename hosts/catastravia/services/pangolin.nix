@@ -325,11 +325,10 @@ in {
   systemd.services.traefik.serviceConfig.WorkingDirectory = "/var/lib/traefik";
 
   sops.secrets = {
-    # TODO: set a default SOPS file
-    cloudflare_api_key = {sopsFile = ../secrets.yaml;};
-    "pangolin/secret" = {sopsFile = ../secrets.yaml;};
-    "pangolin/admin/email" = {sopsFile = ../secrets.yaml;};
-    "pangolin/admin/password" = {sopsFile = ../secrets.yaml;};
+    cloudflare_api_key = {};
+    "pangolin/secret" = {};
+    "pangolin/admin/email" = {};
+    "pangolin/admin/password" = {};
   };
 
   sops.templates = {

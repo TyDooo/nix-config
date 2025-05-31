@@ -1,6 +1,6 @@
 {
-  outputs,
   config,
+  self',
   pkgs,
   ...
 }: {
@@ -10,7 +10,6 @@
   ];
 
   networking = {
-    hostName = "zoltraak";
     networkmanager.enable = true;
   };
 
@@ -18,7 +17,7 @@
     wget
     helix
     git
-    outputs.packages.${pkgs.system}.nvim # TODO: should be a better way to do this
+    self'.packages.nvim
   ];
 
   boot = {
@@ -54,7 +53,7 @@
     };
   };
 
-  sops.secrets."smb-creds".sopsFile = ./secrets.yaml;
+  sops.secrets."smb-creds" = {};
 
   users = {
     users.shared = {

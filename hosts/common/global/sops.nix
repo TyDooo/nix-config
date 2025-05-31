@@ -11,6 +11,6 @@ in {
 
   sops = {
     age.sshKeyPaths = map getKeyPath keys;
-    # TODO: setup defaultSopsFile
+    defaultSopsFile = ../../${config.networking.hostName}/secrets.yaml;
   };
 }
