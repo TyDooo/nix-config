@@ -40,4 +40,19 @@
     caffeine
     zen
   ];
+
+  # Override gnome-keyring to disable its built-in SSH agent component using meson build flags.
+  # This prevents gnome-keyring's agent from automatically registering as the default SSH agent,
+  # ensuring that gpg-agent can be used for SSH authentication without conflict.
+  nixpkgs.overlays = [
+    (_final: prev: {
+      gnome-keyring = prev.gnome-keyring.overrideAttrs (oldAttrs: {
+        mesonFlags =
+          (builtins.filter (flag: flag != "-Dssh-agent=true") oldAttrs.mesonFlags)
+          ++ [
+            "-Dssh-agent=false"
+          ];
+      });
+    })
+  ];
 }

@@ -1,50 +1,26 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   services.gpg-agent = {
     enable = true;
     enableSshSupport = true;
     sshKeys = ["347B9789CB66D37EAF886B2C4A9E314D84972BA4"];
     enableExtraSocket = true;
-    pinentry.package =
-      if config.gtk.enable
-      then pkgs.pinentry-gnome3
-      else pkgs.pinentry-tty;
+    pinentry.package = pkgs.pinentry-gnome3;
+    # if config.gtk.enable
+    # then pkgs.pinentry-gnome3
+    # else pkgs.pinentry-tty;
   };
 
-  home.packages = lib.optional config.gtk.enable pkgs.gcr;
-
-  programs = let
-    fixGpg =
-      /*
-      bash
-      */
-      ''
-        gpgconf --launch gpg-agent
-      '';
-  in {
-    # Start gpg-agent if it's not running or tunneled in
-    # SSH does not start it automatically, so this is needed to avoid having to use a gpg command at startup
-    # https://www.gnupg.org/faq/whats-new-in-2.1.html#autostart
-    bash.profileExtra = fixGpg;
-    fish.loginShellInit = fixGpg;
-    zsh.loginExtra = fixGpg;
-
-    gpg = {
-      enable = true;
-      settings = {
-        trust-model = "tofu+pgp";
-      };
-      publicKeys = [
-        {
-          source = ../../../pgp.asc;
-          trust = 5;
-        }
-      ];
+  programs.gpg = {
+    enable = true;
+    settings = {
+      trust-model = "tofu+pgp";
     };
+    publicKeys = [
+      {
+        source = ../../../pgp.asc;
+        trust = 5;
+      }
+    ];
   };
 
   systemd.user.services = {
