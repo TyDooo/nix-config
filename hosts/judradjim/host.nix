@@ -9,6 +9,7 @@
     ../common/optional/gnome.nix
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
+    ../common/optional/plymouth.nix
   ];
 
   networking = {
