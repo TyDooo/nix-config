@@ -1,4 +1,5 @@
-{
+{inputs, ...}: {
+  imports = [inputs.devshell.flakeModule];
   perSystem = {
     inputs',
     config,
@@ -6,7 +7,25 @@
     pkgs,
     ...
   }: {
-    devShells.default = pkgs.mkShell {
+    devshells.default = {
+      env = [
+        {
+          name = "DIRENV_LOG_FORMAT";
+          value = "";
+        }
+      ];
+
+      commands = [
+        {
+          name = "switch";
+          command = "nixos-rebuild switch --flake . --use-remote-sudo";
+        }
+        {
+          name = "boot";
+          command = "nixos-rebuild boot --flake . --use-remote-sudo";
+        }
+      ];
+
       packages = [
         config.treefmt.build.wrapper
 
@@ -15,13 +34,11 @@
         self'.packages.nvim
 
         pkgs.alejandra
-        pkgs.nil
-        pkgs.deadnix
         pkgs.nixos-anywhere
 
         pkgs.git # Required to use flakes
 
-        # SOPS related stuff
+        # Secrets related stuff
         pkgs.sops
         pkgs.ssh-to-age
         pkgs.gnupg

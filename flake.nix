@@ -24,6 +24,8 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
 
+    devshell.url = "github:numtide/devshell";
+
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
