@@ -6,6 +6,9 @@
 }: {
   imports = [
     ../common/optional/nvidia.nix
+    ../common/optional/gnome.nix
+    ../common/optional/fonts.nix
+    ../common/optional/pipewire.nix
   ];
 
   networking = {
@@ -40,17 +43,7 @@
     };
   };
 
-  services = {
-    xserver.enable = true;
-
-    desktopManager.plasma6.enable = true;
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
-
-    hardware.openrgb.enable = true;
-  };
+  services.hardware.openrgb.enable = true;
 
   programs = {
     steam = {
@@ -68,21 +61,10 @@
     ];
   };
 
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
+  systemd.tmpfiles.rules = [
+    # type path        mode  user      group  age argument
+    "d    /mnt/games   0775  tygo  users  -   -"
+  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
