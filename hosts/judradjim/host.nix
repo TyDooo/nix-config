@@ -10,6 +10,8 @@
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
     ../common/optional/plymouth.nix
+
+    ./modules/mounts.nix
   ];
 
   networking = {
