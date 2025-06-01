@@ -14,9 +14,13 @@
     ...
   } @ args:
     withSystem system (
-      {self', ...}:
+      {
+        inputs',
+        self',
+        ...
+      }:
         inputs.nixpkgs.lib.nixosSystem {
-          specialArgs = {inherit inputs outputs self';};
+          specialArgs = {inherit inputs outputs inputs' self';};
           modules = concatLists [
             (singleton {
               networking.hostName = hostname;

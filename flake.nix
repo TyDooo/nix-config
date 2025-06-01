@@ -57,6 +57,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs"; # Must follow unstable
+    };
+
     impermanence.url = "github:nix-community/impermanence";
   };
 }
