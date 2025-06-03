@@ -5,6 +5,7 @@
 
   home.packages = with pkgs; [
     telegram-desktop
+    thunderbird
     obsidian
     plexamp
     spotify
