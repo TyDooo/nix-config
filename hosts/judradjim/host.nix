@@ -10,6 +10,7 @@
     ../common/optional/fonts.nix
     ../common/optional/pipewire.nix
     ../common/optional/plymouth.nix
+    ../common/optional/hyprland.nix
 
     ./modules/amd-cpu.nix
     ./modules/mounts.nix
