@@ -69,6 +69,10 @@
     "d    /mnt/games   0775  tygo  users  -   -"
   ];
 
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = ["tygo"];
+  boot.kernelParams = ["kvm.enable_virt_at_load=0"];
+
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #
