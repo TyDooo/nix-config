@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  inputs',
+  ...
+}: {
   imports = [
     ./common.nix
   ];
@@ -17,5 +21,7 @@
     picard
     vscode
     vlc
+
+    inputs'.quickshell.packages.default
   ];
 }

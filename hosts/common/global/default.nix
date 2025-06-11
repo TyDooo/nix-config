@@ -1,5 +1,6 @@
 {
   inputs,
+  inputs',
   outputs,
   ...
 }: {
@@ -29,7 +30,7 @@
 
   home-manager = {
     useGlobalPkgs = false;
-    extraSpecialArgs = {inherit inputs outputs;};
+    extraSpecialArgs = {inherit inputs outputs inputs';};
     backupFileExtension = "hm.old";
   };
 }
