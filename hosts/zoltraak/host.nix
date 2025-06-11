@@ -7,6 +7,7 @@
   imports = [
     ./services/navidrome.nix
     ./services/jellyfin.nix
+    ./services/newt.nix
   ];
 
   networking = {
