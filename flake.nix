@@ -66,6 +66,11 @@
       inputs.nixpkgs.follows = "nixpkgs"; # Must follow unstable
     };
 
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     impermanence.url = "github:nix-community/impermanence";
   };
 }
