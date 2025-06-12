@@ -9,7 +9,6 @@
     ./lazygit.nix
     ./nix-index.nix
     ./ripgrep.nix
-    ./thefuck.nix
     ./tmux.nix
     ./yazi.nix
     ./zoxide.nix
