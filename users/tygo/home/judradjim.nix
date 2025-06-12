@@ -7,6 +7,7 @@
     telegram-desktop
     protonvpn-gui
     thunderbird
+    handbrake
     obsidian
     plexamp
     spotify
