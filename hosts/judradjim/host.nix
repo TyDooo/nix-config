@@ -44,6 +44,8 @@
         efiSupport = true;
       };
     };
+
+    kernelPackages = pkgs.linuxPackages_cachyos;
   };
 
   services.hardware.openrgb.enable = true;
