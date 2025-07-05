@@ -18,11 +18,11 @@
       commands = [
         {
           name = "switch";
-          command = "nixos-rebuild switch --flake . --use-remote-sudo";
+          command = "nixos-rebuild switch --flake . --sudo";
         }
         {
           name = "boot";
-          command = "nixos-rebuild boot --flake . --use-remote-sudo";
+          command = "nixos-rebuild boot --flake . --sudo";
         }
       ];
 
