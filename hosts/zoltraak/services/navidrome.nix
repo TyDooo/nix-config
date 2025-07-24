@@ -4,7 +4,7 @@
     openFirewall = true;
     settings = {
       Address = "0.0.0.0";
-      MusicFolder = "/mnt/music/cd_rips";
+      MusicFolder = "/mnt/music";
       EnableInsightsCollector = false;
       EnableStarRating = false;
       EnableSharing = true;

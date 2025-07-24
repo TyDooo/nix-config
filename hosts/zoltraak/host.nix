@@ -8,6 +8,7 @@
     ./services/navidrome.nix
     ./services/jellyfin.nix
     ./services/newt.nix
+    ./services/pocket-id.nix
   ];
 
   networking = {
@@ -29,6 +30,8 @@
 
     loader.systemd-boot.enable = true;
   };
+
+  services.qemuGuest.enable = true;
 
   fileSystems = let
     commonOptions = [
