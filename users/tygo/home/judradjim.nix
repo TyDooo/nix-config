@@ -8,6 +8,7 @@
     protonvpn-gui
     thunderbird
     handbrake
+    streamrip
     obsidian
     plexamp
     spotify

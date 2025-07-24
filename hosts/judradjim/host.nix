@@ -11,6 +11,7 @@
     ../common/optional/pipewire.nix
     ../common/optional/plymouth.nix
 
+    ./modules/amd-cpu.nix
     ./modules/mounts.nix
   ];
 
@@ -45,7 +46,8 @@
       };
     };
 
-    kernelPackages = pkgs.linuxPackages_cachyos;
+    # FIXME: This seems to cause issues with suspending/resuming.
+    # kernelPackages = pkgs.linuxPackages_cachyos;
   };
 
   services.hardware.openrgb.enable = true;
