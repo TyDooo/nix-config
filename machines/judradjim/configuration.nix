@@ -23,5 +23,7 @@
     telegram-desktop
     vesktop
     spotify
+    obsidian
+    darktable
   ];
 }
