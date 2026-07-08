@@ -13,6 +13,7 @@ let
     mkIf
     mapAttrs'
     nameValuePair
+    optional
     optionalString
     ;
   inherit (lib.types)
@@ -68,10 +69,13 @@ in
       # Based on https://github.com/ImUrX/nixfiles/blob/b07d94b2a7dec5c5d8c93d60b706434db3514554/modules/wg-pnp.nix
 
       systemd.timers = mapAttrs' (
-        vpnNamespace: _:
+        vpnNamespace: forwardConfig:
         nameValuePair "${vpnNamespace}-port-forwarding" {
           wantedBy = [ "timers.target" ];
-          after = [ "${vpnNamespace}.service" ];
+          after = [
+            "${vpnNamespace}.service"
+          ]
+          ++ optional forwardConfig.qbittorrent.enable "qbittorrent.service";
           timerConfig = {
             # Run every 45s to ensure the port doesn't expire
             OnBootSec = "45s";
@@ -89,7 +93,10 @@ in
             User = "root";
           };
           bindsTo = [ "${vpnNamespace}.service" ];
-          after = [ "${vpnNamespace}.service" ];
+          after = [
+            "${vpnNamespace}.service"
+          ]
+          ++ optional forwardConfig.qbittorrent.enable "qbittorrent.service";
 
           vpnConfinement = {
             enable = true;
@@ -105,7 +112,7 @@ in
 
           script = ''
             # bash
-            set -u
+            set -euo pipefail
 
             port_file="/tmp/${vpnNamespace}-port"
             old_port="$(cat "$port_file" 2>/dev/null || echo "")"

@@ -11,7 +11,6 @@ let
   media_dir = "/mnt/user/media";
   torrents_dir = "/mnt/user/downloads/torrents";
 
-  # FIXME: hard-linking directories fails
   anime_import = pkgs.writeShellScriptBin "qbit_anime_import" ''
     # bash
     set -euo pipefail
@@ -111,8 +110,7 @@ in
 
   # Tunnel all traffic through Proton VPN
   systemd.services.qbittorrent = {
-    after = [ "proton0.service" ];
-    requires = [ "proton0.service" ];
+    # vpnConfinement sets `bindsTo` and `after` automatically
     vpnConfinement = {
       enable = true;
       vpnNamespace = "proton0";
@@ -153,6 +151,7 @@ in
   vpnNamespaces.proton0.portMappings = singleton {
     from = port;
     to = port;
+    protocol = "tcp";
   };
 
   networking.firewall.allowedTCPPorts = [ port ];

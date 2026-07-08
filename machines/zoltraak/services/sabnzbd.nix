@@ -17,8 +17,7 @@ in
 
   # Tunnel all traffic through Proton VPN
   systemd.services.sabnzbd = {
-    after = [ "proton0.service" ];
-    requires = [ "proton0.service" ];
+    # vpnConfinement sets `bindsTo` and `after` automatically
     vpnConfinement = {
       enable = true;
       vpnNamespace = "proton0";
