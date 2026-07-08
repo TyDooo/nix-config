@@ -19,6 +19,7 @@
         "audio"
         "video"
         "input"
+        "dialout"
         "plugdev"
         "networkmanager"
         "users"
