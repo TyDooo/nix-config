@@ -1,5 +1,7 @@
 { pkgs, ... }: {
   imports = [
+    ../../optional/impermanence.nix
+
     ./fonts.nix
     ./pipewire.nix
   ];

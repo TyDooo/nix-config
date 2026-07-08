@@ -1,7 +1,7 @@
 {
   imports = [
-    ./documentation.nix
-    ./fonts.nix
+    ../../optional/impermanence.nix
+
     ./systemd.nix
   ];
 }

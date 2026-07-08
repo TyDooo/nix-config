@@ -9,7 +9,6 @@
   imports = [
     ./networking
 
-    ./impermanence.nix
     ./podman.nix
     ./sops.nix
     ./nix.nix
@@ -55,23 +54,5 @@
     useGlobalPkgs = false;
     extraSpecialArgs = { inherit inputs outputs inputs'; };
     backupFileExtension = "hm.old";
-  };
-
-  environment.persistence = {
-    "/persist".directories = [
-      "/var/lib/zerotier-one"
-      {
-        directory = "/var/lib/data-mesher";
-        user = "data-mesher";
-        group = "data-mesher";
-        mode = "0755";
-      }
-      {
-        directory = "/var/lib/unbound";
-        user = "unbound";
-        group = "unbound";
-        mode = "0755";
-      }
-    ];
   };
 }

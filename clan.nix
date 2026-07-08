@@ -14,6 +14,7 @@ let
   admin = rolesPath + /admin;
   graphical = rolesPath + /graphical;
   gaming = rolesPath + /gaming;
+  headless = rolesPath + /headless;
 in
 {
   imports = [
@@ -104,6 +105,12 @@ in
           ];
         };
 
+        headless = {
+          module.name = "importer";
+          roles.default.tags = [ "headless" ];
+          roles.default.extraModules = [ headless ];
+        };
+
         server = {
           module.name = "importer";
           roles.default.tags = [ "server" ];
@@ -148,7 +155,10 @@ in
           module.name = "data-mesher";
           # All machines participate in the mesh
           roles.default.tags.all = { };
-          roles.default.settings.interfaces = [ "ztt3kigr5l" ];
+          roles.default.settings.interfaces = [
+            "ztt3kigr5l"
+            "ygg"
+          ];
           # Always-on servers act as bootstrap entry points
           roles.bootstrap.tags.server = { };
         };
