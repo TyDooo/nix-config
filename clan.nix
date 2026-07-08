@@ -51,6 +51,10 @@ in
           "server"
         ];
 
+        sorganeil.tags = [
+          "headless"
+        ];
+
         judradjim.tags = [
           "admin"
           "desktop"

@@ -14,6 +14,9 @@
     home = lib.mkForce false; # Not supported on this machine
   };
 
+  # Enable binfmt emulation.
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   environment.systemPackages = with pkgs; [
     streamrip
     vscodium
