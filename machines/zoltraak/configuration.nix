@@ -39,6 +39,9 @@
     groups.backup = { };
   };
 
+  # Disable DNSStubListener to free up port 53 for Blocky
+  services.resolved.settings.Resolve.DNSStubListener = false;
+
   systemd.services.systemd-tmpfiles-setup = {
     after = [ "mnt-user.mount" ];
     requires = [ "mnt-user.mount" ];

@@ -11,6 +11,9 @@
     };
   };
 
+  # Disable DNSStubListener to free up port 53 for Blocky
+  services.resolved.settings.Resolve.DNSStubListener = false;
+
   fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";

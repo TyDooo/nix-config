@@ -38,6 +38,7 @@ in
 
     modules."@grimoire/nfs" = ./clanServices/nfs;
     modules."@grimoire/shoko" = ./clanServices/shoko;
+    modules."@grimoire/blocky" = ./clanServices/blocky;
 
     inventory = {
       machines = {
@@ -252,6 +253,16 @@ in
               rsh = "ssh -p 23 -oStrictHostKeyChecking=accept-new -i /run/secrets/vars/borgbackup/borgbackup.ssh";
             };
           };
+        };
+
+        blocky = {
+          module.input = "self";
+          module.name = "@grimoire/blocky";
+
+          roles.default.machines.zoltraak.settings = {
+            listenAddresses = [ "10.10.50.50" ];
+          };
+          roles.default.machines.sorganeil = { };
         };
       };
     };
