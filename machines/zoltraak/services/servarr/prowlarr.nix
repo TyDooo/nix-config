@@ -1,22 +1,13 @@
 { pkgs, lib, ... }:
 let
-  inherit (lib) getExe singleton;
+  inherit (lib) getExe;
 in
 {
   systemd.services.prowlarr = {
     description = "Prowlarr";
-    after = [
-      "network.target"
-      "proton0.service"
-    ];
-    requires = [ "proton0.service" ];
+    after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     environment.HOME = "/var/empty";
-
-    vpnConfinement = {
-      enable = true;
-      vpnNamespace = "proton0";
-    };
 
     serviceConfig = {
       DynamicUser = true;
@@ -43,15 +34,5 @@ in
     ];
   };
 
-  vpnNamespaces.proton0.portMappings = singleton {
-    from = 9696;
-    to = 9696;
-  };
-
-  # Allow prowlarr to access sonarr, radarr and flaresolverr over the VPN bridge
-  networking.firewall.interfaces."proton0-br".allowedTCPPorts = [
-    7878
-    8989
-    8191
-  ];
+  networking.firewall.allowedTCPPorts = [ 9696 ];
 }
