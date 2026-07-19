@@ -263,6 +263,8 @@ in
             listenAddresses = [ "10.10.50.50" ];
           };
           roles.default.machines.sorganeil = { };
+
+          roles.cache.machines.zoltraak = { };
         };
       };
     };
