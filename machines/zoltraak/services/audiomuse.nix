@@ -5,7 +5,7 @@
   ...
 }:
 let
-  version = "2.1.1";
+  version = "3.0.1";
 
   redisPort = 6380;
   database = {
