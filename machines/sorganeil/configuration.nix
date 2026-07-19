@@ -22,7 +22,15 @@
     };
   };
 
-  networking.hostName = "sorganeil";
+  networking = {
+    hostName = "sorganeil";
+    interfaces.end0.ipv6.addresses = [
+      {
+        address = "fdfa:eded:1c37:50::51";
+        prefixLength = 64;
+      }
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     libraspberrypi

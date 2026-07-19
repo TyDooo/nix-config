@@ -29,6 +29,10 @@
         matchConfig.Name = "bond0";
         linkConfig.RequiredForOnline = "routable";
         networkConfig.DHCP = "yes";
+
+        address = [
+          "fdfa:eded:1c37:50::50/64"
+        ];
       };
     };
   };
