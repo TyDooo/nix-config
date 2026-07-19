@@ -28,5 +28,9 @@
     spotify
     obsidian
     darktable
+    caligula # Like Balena Etcher, but as a TUI and actually available on Nix
+    rockbox-utility
+    bruno
+    codex
   ];
 }
