@@ -39,6 +39,7 @@ in
     modules."@grimoire/nfs" = ./clanServices/nfs;
     modules."@grimoire/shoko" = ./clanServices/shoko;
     modules."@grimoire/blocky" = ./clanServices/blocky;
+    modules."@grimoire/monitoring" = ./clanServices/monitoring;
 
     inventory = {
       machines = {
@@ -284,6 +285,21 @@ in
           roles.default.machines.catastravia.settings = {
             publicHost = "auth.tydooo.dev";
           };
+        };
+
+        monitoring = {
+          module.input = "self";
+          module.name = "@grimoire/monitoring";
+
+          roles.server.machines.catastravia.settings = {
+            grafana.oidc = {
+              enable = true;
+              issuer = "https://auth.tydooo.dev";
+              clientId = "grafana";
+              providerName = "Pocket ID";
+            };
+          };
+          roles.client.tags.headless = { };
         };
       };
     };
