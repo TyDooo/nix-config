@@ -29,6 +29,11 @@
     clan-core.inputs.nixpkgs.follows = "nixpkgs";
     clan-core.inputs.flake-parts.follows = "flake-parts";
 
+    clan-community.url = "https://git.clan.lol/clan/clan-community/archive/main.tar.gz";
+    clan-community.inputs.clan-core.follows = "clan-core";
+    clan-community.inputs.nixpkgs.follows = "nixpkgs";
+    clan-community.inputs.treefmt-nix.follows = "treefmt-nix";
+
     vpn-confinement.url = "github:Maroka-chan/VPN-Confinement";
 
     treefmt-nix.follows = "clan-core/treefmt-nix";

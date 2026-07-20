@@ -277,6 +277,14 @@ in
 
           roles.cache.machines.zoltraak = { };
         };
+
+        pocket-id = {
+          module.input = "clan-community";
+          module.name = "pocket-id";
+          roles.default.machines.catastravia.settings = {
+            publicHost = "auth.tydooo.dev";
+          };
+        };
       };
     };
   };
