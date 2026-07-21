@@ -286,6 +286,13 @@ in
           module.name = "pocket-id";
           roles.default.machines.catastravia.settings = {
             publicHost = "auth.tydooo.dev";
+            extraClients.tandoor = {
+              name = "Tandoor Recipes";
+              callbackURLs = [
+                "http://10.10.50.50:8174/accounts/oidc/pocket-id/login/callback/"
+              ];
+              isPublic = true;
+            };
           };
         };
 

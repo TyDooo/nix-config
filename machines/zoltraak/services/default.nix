@@ -16,5 +16,6 @@
     ./sabnzbd.nix
     ./seerr.nix
     ./stash.nix
+    ./tandoor.nix
   ];
 }
