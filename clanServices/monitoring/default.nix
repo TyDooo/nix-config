@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ clanLib, lib, ... }: {
   _class = "clan.service";
   manifest.name = "monitoring";
   manifest.description = "Monitoring stack gathering metrics and logs with a small resource footprint.";
@@ -11,6 +11,7 @@
     "endpoints"
     "auth"
   ];
+  manifest.exports.inputs = [ "metrics" ];
   manifest.constraints.roles.server.maxMachines = 1;
 
   roles.server = {
@@ -490,7 +491,13 @@
       };
 
     perInstance =
-      { roles, settings, ... }:
+      {
+        exports,
+        machine,
+        roles,
+        settings,
+        ...
+      }:
       {
         nixosModule =
           {
@@ -517,6 +524,33 @@
                       map (m: "${m}.${config.clan.core.settings.domain}") (lib.attrNames roles.server.machines)
                     );
                 serverAddress = "${protocol}://${serverHost}";
+
+                machineExports = clanLib.selectExports (scope: scope.machineName == machine.name) exports;
+                metricsEndpoints = lib.concatLists (
+                  lib.mapAttrsToList (
+                    _scopeKey: exportValue:
+                    lib.optionals ((exportValue.metrics or null) != null) exportValue.metrics.endpoints
+                  ) machineExports
+                );
+                metricsTargets = map (
+                  endpoint:
+                  endpoint.labels
+                  // {
+                    __address__ = endpoint.address;
+                    __metrics_path__ = endpoint.path;
+                    __scheme__ = endpoint.scheme;
+                    instance = machine.name;
+                    job = endpoint.name;
+                  }
+                ) metricsEndpoints;
+                renderMetricsTarget =
+                  target:
+                  "{ ${
+                    lib.concatStringsSep ", " (
+                      lib.mapAttrsToList (name: value: "${builtins.toJSON name} = ${builtins.toJSON value}") target
+                    )
+                  } }";
+                renderedMetricsTargets = lib.concatMapStringsSep ",\n  " renderMetricsTarget metricsTargets;
 
                 enabledNixosSystemdServices = map (v: "${v}.service") (
                   lib.attrNames (
@@ -564,6 +598,14 @@
                   prometheus.scrape "scrape_metrics" {
                     targets = prometheus.exporter.unix.local_system.targets
                     forward_to = [prometheus.relabel.create_nixos_services_metric.receiver, prometheus.remote_write.mimir.receiver]
+                    scrape_interval = "10s"
+                  }
+
+                  prometheus.scrape "service_metrics" {
+                    targets = [
+                      ${lib.optionalString (metricsTargets != [ ]) "${renderedMetricsTargets},"}
+                    ]
+                    forward_to = [prometheus.remote_write.mimir.receiver]
                     scrape_interval = "10s"
                   }
 

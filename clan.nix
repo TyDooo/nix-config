@@ -41,6 +41,8 @@ in
     modules."@grimoire/blocky" = ./clanServices/blocky;
     modules."@grimoire/monitoring" = ./clanServices/monitoring;
 
+    exportInterfaces.metrics = import ./clanServices/monitoring/metrics-interface.nix;
+
     inventory = {
       machines = {
         zoltraak.tags = [

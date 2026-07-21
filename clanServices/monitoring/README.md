@@ -2,7 +2,29 @@ Monitoring service based on the clan.lol [monitoring service](https://git.clan.l
 
 ## Inputs
 
-The service collects `metric_endpoint` (name TBD) inputs from other clan services, allowing them to register their own metric endpoints.
+The service consumes `metrics` exports from other Clan services. Each endpoint is
+scraped by Alloy on the machine that exported it and forwarded to Mimir, where it
+is available to Grafana.
+
+Services can register an endpoint like this:
+
+```nix
+manifest.exports.out = [ "metrics" ];
+
+roles.default.perInstance =
+  { mkExports, ... }:
+  {
+    exports = mkExports {
+      metrics.endpoints = [
+        {
+          name = "my-service";
+          address = "127.0.0.1:9000";
+          path = "/metrics";
+        }
+      ];
+    };
+  };
+```
 
 ## Architecture Overview
 

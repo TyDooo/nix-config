@@ -25,6 +25,7 @@ in
   manifest.name = "blocky";
   manifest.description = "A network-wide DNS sinkhole";
   manifest.categories = [ "Network" ];
+  manifest.exports.out = [ "metrics" ];
   manifest.readme = ''
     The `default` role configures blocky, which is meant to run on an always-on
     machine that the LAN router/modem points to as its DNS resolver, so the policy
@@ -147,9 +148,19 @@ in
         roles,
         instanceName,
         meta,
+        mkExports,
         ...
       }:
       {
+        exports = mkExports {
+          metrics.endpoints = [
+            {
+              name = "blocky";
+              address = "127.0.0.1:${toString settings.httpPort}";
+            }
+          ];
+        };
+
         nixosModule =
           {
             config,
@@ -193,6 +204,8 @@ in
                   inherit (settings) denylists allowlists;
                   clientGroupsBlock.default = settings.alwaysBlock;
                 };
+
+                prometheus.enable = true;
               }
               // optionalAttrs hasCache {
                 redis = {
