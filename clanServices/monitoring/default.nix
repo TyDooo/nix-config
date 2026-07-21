@@ -11,7 +11,10 @@
     "endpoints"
     "auth"
   ];
-  manifest.exports.inputs = [ "metrics" ];
+  manifest.exports.inputs = [
+    "metrics"
+    "peer"
+  ];
   manifest.constraints.roles.server.maxMachines = 1;
 
   roles.server = {
@@ -506,23 +509,48 @@
             options,
             ...
           }:
+          let
+            serverMachineNames = lib.attrNames roles.server.machines;
+            serverMachineCount = lib.length serverMachineNames;
+            serverMachineName =
+              if serverMachineCount != 1 then
+                throw "The monitoring service requires exactly one server machine, but ${toString serverMachineCount} were defined."
+              else
+                lib.head serverMachineNames;
+            serverSettings = roles.server.machines.${serverMachineName}.settings;
+            serverHost =
+              if serverSettings.host != null then
+                serverSettings.host
+              else
+                "${serverMachineName}.${config.clan.core.settings.domain}";
+
+            serverYggdrasilExports = clanLib.selectExports (
+              scope:
+              (scope.serviceName == "yggdrasil" || lib.hasSuffix "/yggdrasil" scope.serviceName)
+              && scope.machineName == serverMachineName
+            ) exports;
+            serverYggdrasilAddresses = lib.unique (
+              lib.concatMap (
+                exportValue:
+                if (exportValue.peer or null) == null then
+                  [ ]
+                else
+                  lib.filter (address: address != "") (
+                    map (host: if host ? plain then lib.trim host.plain else "") exportValue.peer.hosts
+                  )
+              ) (lib.attrValues serverYggdrasilExports)
+            );
+          in
           {
+            # Alloy uses Go's native resolver, which cannot finish a DNS CNAME
+            # whose target is supplied by NSS through Yggdrasil's /etc/hosts
+            # entries. Add the public monitoring hostname directly as an alias
+            # for the server's exported Yggdrasil address.
+            networking.hosts = lib.genAttrs serverYggdrasilAddresses (_address: [ serverHost ]);
+
             services.alloy =
               let
-                serverMachineCount = lib.length (lib.attrNames roles.server.machines);
                 protocol = "http" + lib.optionalString settings.useSSL "s";
-                serverSettings =
-                  if serverMachineCount != 1 then
-                    throw "The monitoring service requires exactly one server machine, but ${toString serverMachineCount} were defined."
-                  else
-                    (lib.head (lib.attrValues roles.server.machines)).settings;
-                serverHost =
-                  if serverSettings.host != null then
-                    serverSettings.host
-                  else
-                    lib.head (
-                      map (m: "${m}.${config.clan.core.settings.domain}") (lib.attrNames roles.server.machines)
-                    );
                 serverAddress = "${protocol}://${serverHost}";
 
                 machineExports = clanLib.selectExports (scope: scope.machineName == machine.name) exports;
@@ -700,6 +728,7 @@
                 "loki-auth-password:${config.clan.core.vars.generators.loki-auth.files.password.path}"
               ];
             };
+
           };
       };
   };
