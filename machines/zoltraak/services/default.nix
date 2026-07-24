@@ -15,6 +15,7 @@
     ./rest-server.nix
     ./sabnzbd.nix
     ./seerr.nix
+    ./slskd.nix
     ./stash.nix
     ./tandoor.nix
   ];
