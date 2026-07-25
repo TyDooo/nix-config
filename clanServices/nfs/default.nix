@@ -129,7 +129,7 @@
                 };
                 options = lib.mkOption {
                   type = types.str;
-                  default = "rw,_netdev,nofail,x-systemd.automount,noatime,vers=4.2";
+                  default = "rw,_netdev,x-systemd.automount,x-systemd.idle-timeout=600,noatime,vers=4.2";
                   description = "Mount options used for this NFS mount.";
                 };
               };
@@ -186,14 +186,8 @@
             { directory = "/var/lib/nfs"; }
           ];
 
-          networking.firewall.allowedTCPPorts = [
-            111
-            2049
-          ];
-          networking.firewall.allowedUDPPorts = [
-            111
-            2049
-          ];
+          networking.firewall.allowedTCPPorts = [ 2049 ];
+          networking.firewall.allowedUDPPorts = [ 2049 ];
         };
     };
 }
