@@ -34,6 +34,7 @@ in
 
     secrets.age.plugins = [
       "age-plugin-yubikey"
+      "age-plugin-tpm"
     ];
 
     modules."@grimoire/nfs" = ./clanServices/nfs;

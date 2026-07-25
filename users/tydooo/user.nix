@@ -27,6 +27,7 @@
         "git"
         "libvirtd"
         "media"
+        "tss"
       ];
       group = "tydooo";
     };

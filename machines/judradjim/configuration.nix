@@ -9,6 +9,12 @@
     loader.systemd-boot.enable = true;
   };
 
+  security.tpm2 = {
+    enable = true;
+    pkcs11.enable = true;
+    tctiEnvironment.enable = true;
+  };
+
   system.nuke = {
     root = true; # Remove the root directory on each boot
     home = lib.mkForce false; # Not supported on this machine
