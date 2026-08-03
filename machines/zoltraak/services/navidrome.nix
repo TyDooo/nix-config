@@ -2,6 +2,25 @@
 let
   dataPath = "/var/lib/navidrome";
   musicPath = "/mnt/user/media/music";
+
+  navidrome-lyrics-plugin = pkgs.stdenvNoCC.mkDerivation (finalAttrs: {
+    pname = "navidrome-lyrics-plugin";
+    version = "7.1.0";
+
+    src = pkgs.fetchurl {
+      url = "https://github.com/J0R6IT0/navidrome-lyrics-plugin/releases/download/v${finalAttrs.version}/nd-lyrics.ndp";
+      hash = "sha256-N0OJ0GuTWISvCjooxttRDl6O5GYDOomcPH6yClSFLOc=";
+    };
+
+    dontUnpack = true;
+
+    installPhase = ''
+      mkdir -p $out/share
+      cp $src $out/share/${finalAttrs.pname}.ndp
+    '';
+
+    passthru.isNavidromePlugin = true;
+  });
 in
 {
   services.navidrome = {
@@ -21,12 +40,18 @@ in
       Plugins.Enabled = true;
 
       Agents = "audiomuseai,apple-music,deezer,lastfm,listenbrainz";
+      LyricsPriority = ".ttml,.yaml,.yml,.elrc,.lrc,.srt,.txt,embedded,nd-lyrics";
     };
 
-    plugins = with pkgs.navidromePlugins; [
-      apple-music
-      audiomuseai
-    ];
+    plugins =
+      with pkgs.navidromePlugins;
+      [
+        apple-music
+        audiomuseai
+      ]
+      ++ [
+        navidrome-lyrics-plugin
+      ];
   };
 
   systemd.tmpfiles.rules = [
