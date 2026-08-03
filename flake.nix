@@ -13,6 +13,8 @@
         ./parts
 
         ./clan.nix
+
+        (inputs.import-tree ./modules/features)
       ];
     };
 
@@ -59,5 +61,10 @@
 
     noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
     noctalia-greeter.inputs.nixpkgs.follows = "nixpkgs";
+
+    import-tree.url = "github:vic/import-tree";
+
+    wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrapper-modules.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

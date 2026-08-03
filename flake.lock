@@ -285,6 +285,21 @@
         "type": "github"
       }
     },
+    "import-tree": {
+      "locked": {
+        "lastModified": 1784254960,
+        "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
+        "type": "github"
+      }
+    },
     "jovian-nixos": {
       "inputs": {
         "nix-github-actions": "nix-github-actions_3",
@@ -585,6 +600,7 @@
         "flake-parts": "flake-parts_2",
         "home-manager": "home-manager",
         "impermanence": "impermanence",
+        "import-tree": "import-tree",
         "jovian-nixos": "jovian-nixos",
         "nix-cachyos-kernel": "nix-cachyos-kernel",
         "nix-index-db": "nix-index-db",
@@ -595,7 +611,8 @@
           "clan-core",
           "treefmt-nix"
         ],
-        "vpn-confinement": "vpn-confinement"
+        "vpn-confinement": "vpn-confinement",
+        "wrapper-modules": "wrapper-modules"
       }
     },
     "sops-nix": {
@@ -668,6 +685,26 @@
       "original": {
         "owner": "Maroka-chan",
         "repo": "VPN-Confinement",
+        "type": "github"
+      }
+    },
+    "wrapper-modules": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782135443,
+        "narHash": "sha256-vAmbArdCyjqpVW+37aCy/PMBOLIqukUXLQuEKLwUhA4=",
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
+        "rev": "6e7f66fa2cdf4d63162580b438f7fcf87c28a46f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
         "type": "github"
       }
     }

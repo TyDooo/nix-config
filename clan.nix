@@ -1,7 +1,7 @@
 { inputs, ... }:
 let
-  inherit (self) outputs;
   inherit (inputs) self;
+  inherit (self) outputs;
 
   modulePath = ./modules;
 
@@ -135,7 +135,10 @@ in
         graphical = {
           module.name = "importer";
           roles.default.tags = [ "graphical" ];
-          roles.default.extraModules = [ graphical ];
+          roles.default.extraModules = [
+            graphical
+            self.nixosModules.niri
+          ];
         };
 
         gaming = {

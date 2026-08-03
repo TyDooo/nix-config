@@ -65,7 +65,16 @@ nix-shell -p nixos-facter --run 'sudo nixos-facter > facter.json'
 
 Move the `facter.json` file to the correct location.
 
-## Credits
+# Feature modules
+
+Some of the config follows the Dendritic pattern.
+As a result, these can be ran standalone. For example:
+
+```shell
+nix run .#myNiri 
+```
+
+# Credits
 
 This configuration is inspired by and borrows from:
 
