@@ -8,14 +8,14 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "0WD0";
       repo = "niri";
-      rev = "4a351116b95dc652e8ae428b5a1910132b69112f";
-      hash = "sha256-ycLNYc4E5nDv69W62DtiNB5t+gGBTjVNAKWllPFPZzU=";
+      rev = "803cf8e53e11d7d9237dc75e6701fcc8863fc1da";
+      hash = "sha256-gvoq9a81pprMRsmREcUJ0X0zTgLm9AVMhkTUoxl4NqE=";
     };
 
     cargoDeps = pkgs.rustPlatform.fetchCargoVendor {
       inherit src;
-      name = "niri-unstable-fork-2026-06-19";
-      hash = "sha256-jGORNwJ/F9UrajObXdGLbOTGEpCv919puUuWojbuVwo=";
+      name = "niri-unstable-fork-2026-08-03";
+      hash = "sha256-HypBB3PL4nVFMNH2+jEK0+dG9dJ920nHi8GwRoeH/v4=";
     };
 
     # The fork's Cargo.toml version probably won't match `version` above,
