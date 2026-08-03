@@ -23,6 +23,13 @@
   # Enable binfmt emulation.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    openFirewall = true;
+  };
+
   environment.systemPackages = with pkgs; [
     streamrip
     vscodium
