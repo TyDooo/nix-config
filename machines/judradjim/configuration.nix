@@ -38,5 +38,7 @@
     rockbox-utility
     bruno
     codex
+    rsgain # ReplayGain calculation (used by Picard)
+    yt-dlp
   ];
 }
