@@ -66,12 +66,6 @@ in
           "graphical"
           "gaming"
         ];
-
-        nephtear.tags = [
-          "admin"
-          "graphical"
-          "gaming"
-        ];
       };
 
       instances = {
@@ -203,13 +197,6 @@ in
 
         yggdrasil = {
           roles.default.tags = [ "all" ];
-        };
-
-        wifi = {
-          module.name = "wifi";
-          roles.default.machines.nephtear = {
-            settings.networks.home = { };
-          };
         };
 
         nfs = {

@@ -18,7 +18,6 @@ My current machines are:
 | Configuration                          | Type    | Location | Description        |
 | -------------------------------------- | ------- | -------- | ------------------ |
 | [Judradjim](./machines/judradjim/)     | Desktop | local    | My main desktop PC |
-| [Nephtear](./machines/nephtear/)       | Handeld | local    | Steam Deck         |
 | [Zoltraak](./machines/zoltraak/)       | Server  | local    |                    |
 | [Catastravia](./machines/catastravia/) | Server  | Hetzner  |                    |
 | [Sorganeil](./machines/sorganeil/)     | Server  | local    | Raspberry PI 4     |
