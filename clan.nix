@@ -92,6 +92,7 @@ in
           roles.default.tags = [ "all" ];
           roles.default.extraModules = [
             inputs.home-manager.nixosModules.home-manager
+            self.nixosModules.nuke
 
             common
 

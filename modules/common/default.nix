@@ -2,6 +2,7 @@
   inputs',
   inputs,
   outputs,
+  self,
   pkgs,
   ...
 }:
@@ -41,14 +42,19 @@
     media.gid = 990;
   };
 
-  environment.systemPackages = with pkgs; [
-    git
-    vim
-    btop
-    wget
-    helix
-    fastfetch
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      git
+      vim
+      wget
+      fastfetch
+      fd
+    ]
+    ++ (with self.packages.${pkgs.stdenv.hostPlatform.system}; [
+      helix-wrapped
+      btop-wrapped
+    ]);
 
   home-manager = {
     useGlobalPkgs = false;

@@ -1,6 +1,6 @@
 { inputs, ... }: {
   perSystem = { pkgs, ... }: {
-    packages.myKitty = inputs.wrapper-modules.wrappers.kitty.wrap {
+    packages.kitty-wrapped = inputs.wrapper-modules.wrappers.kitty.wrap {
       inherit pkgs;
 
       font = {
@@ -10,12 +10,11 @@
 
       settings = {
         enable_audio_bell = false;
+        copy_on_select = "clipboard";
+        confirm_os_window_close = 0;
       };
 
-      # FIXME: this won't work on other machines
-      extraConfig = ''
-        include ~/.config/kitty/current-theme.conf
-      '';
+      themeFile = "rose-pine";
     };
   };
 }

@@ -636,19 +636,7 @@
         },
         {
           "enabled": true,
-          "id": "helix"
-        },
-        {
-          "enabled": true,
-          "id": "kitty"
-        },
-        {
-          "enabled": true,
           "id": "gtk"
-        },
-        {
-          "enabled": true,
-          "id": "btop"
         },
         {
           "enabled": true,

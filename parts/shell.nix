@@ -3,6 +3,7 @@
     {
       inputs',
       config,
+      self',
       pkgs,
       ...
     }:
@@ -12,6 +13,8 @@
           config.treefmt.build.wrapper
 
           inputs'.clan-core.packages.clan-cli
+
+          self'.packages.jj-wrapped
         ]
         ++ (with pkgs; [
           nixfmt
@@ -21,7 +24,6 @@
           just-lsp
 
           git # Required to use flakes
-          jujutsu
 
           # Secrets related stuff
           sops
