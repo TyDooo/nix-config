@@ -1,7 +1,7 @@
 {
-  imports = [
-    ../../optional/impermanence.nix
-
-    ./systemd.nix
-  ];
+  flake.nixosModules.role-server = {
+    imports = [
+      ./systemd.nix
+    ];
+  };
 }

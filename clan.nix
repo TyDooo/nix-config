@@ -6,15 +6,6 @@ let
   modulePath = ./modules;
 
   common = modulePath + /common;
-
-  # ROLES
-  rolesPath = modulePath + /roles;
-
-  server = rolesPath + /server;
-  admin = rolesPath + /admin;
-  graphical = rolesPath + /graphical;
-  gaming = rolesPath + /gaming;
-  headless = rolesPath + /headless;
 in
 {
   imports = [
@@ -111,34 +102,38 @@ in
         headless = {
           module.name = "importer";
           roles.default.tags = [ "headless" ];
-          roles.default.extraModules = [ headless ];
+          roles.default.extraModules = with self.nixosModules; [ role-headless ];
         };
 
         server = {
           module.name = "importer";
           roles.default.tags = [ "server" ];
-          roles.default.extraModules = [ server ];
+          roles.default.extraModules = with self.nixosModules; [
+            role-server
+            impermanence
+          ];
         };
 
         admin = {
           module.name = "importer";
           roles.default.tags = [ "admin" ];
-          roles.default.extraModules = [ admin ];
+          roles.default.extraModules = with self.nixosModules; [ role-admin ];
         };
 
         graphical = {
           module.name = "importer";
           roles.default.tags = [ "graphical" ];
-          roles.default.extraModules = [
-            graphical
-            self.nixosModules.niri
+          roles.default.extraModules = with self.nixosModules; [
+            role-graphical
+            impermanence
+            desktop
           ];
         };
 
         gaming = {
           module.name = "importer";
           roles.default.tags = [ "gaming" ];
-          roles.default.extraModules = [ gaming ];
+          roles.default.extraModules = with self.nixosModules; [ role-gaming ];
         };
 
         zoltraak-shoko = {

@@ -15,6 +15,12 @@
         ./clan.nix
 
         (inputs.import-tree ./modules/features)
+
+        ./modules/roles/admin
+        ./modules/roles/gaming
+        ./modules/roles/graphical
+        ./modules/roles/headless
+        ./modules/roles/server
       ];
     };
 
