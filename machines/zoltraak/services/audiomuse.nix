@@ -5,9 +5,8 @@
   ...
 }:
 let
-  version = "3.0.1";
+  version = "3.3.1";
 
-  redisPort = 6380;
   database = {
     inherit (config.services.postgresql.settings) port;
     name = "audiomuse";
@@ -37,9 +36,6 @@ let
     POSTGRES_DB = database.name;
     POSTGRES_USER = database.user;
 
-    REDIS_URL = "redis://localhost:${toString redisPort}/0";
-    REDIS_PORT = toString redisPort;
-
     AUTH_ENABLED = "true";
     # AUDIOMUSE_USER: provided through SOPS
     # AUDIOMUSE_PASSWORD: provided through SOPS
@@ -51,12 +47,6 @@ let
   };
 in
 {
-  services.redis.servers.audiomuse = {
-    enable = true;
-    port = redisPort;
-    bind = "127.0.0.1";
-  };
-
   clan.core.vars.generators."audiomuse" = grimoire-utils.mkEnvGenerator [
     "NAVIDROME_PASSWORD"
     "AUDIOMUSE_USER"
