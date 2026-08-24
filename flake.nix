@@ -4,16 +4,10 @@
   outputs =
     inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
-
       imports = [
-        ./parts
-
         ./clan.nix
 
+        (inputs.import-tree ./modules/flake)
         (inputs.import-tree ./modules/features)
 
         ./modules/roles/admin
