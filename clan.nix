@@ -170,6 +170,35 @@ in
           roles.default.tags.all = { };
           roles.push.machines.judradjim = { };
           roles.push.machines.zoltraak = { };
+
+          roles.push.extraModules = [
+            {
+              # Push the zone file to data-mesher on boot.
+              # dm-send-dns is provided by the push role and reads the signing key
+              # directly from clan vars (no separate secrets backend needed).
+              systemd.services.dm-push-dns = {
+                description = "Push dm-dns zone file to data-mesher";
+                after = [
+                  "data-mesher.service"
+                  "network-online.target"
+                ];
+                wants = [
+                  "data-mesher.service"
+                  "network-online.target"
+                ];
+                wantedBy = [ "multi-user.target" ];
+                path = [ "/run/current-system/sw" ];
+                serviceConfig = {
+                  Type = "oneshot";
+                  RemainAfterExit = true;
+                  ExecStart = "/run/current-system/sw/bin/dm-send-dns";
+                  Restart = "on-failure";
+                  RestartSec = "10s";
+                };
+              };
+            }
+          ];
+
         };
 
         pki = {
@@ -263,7 +292,9 @@ in
           roles.default.machines.zoltraak.settings = {
             listenAddresses = [ "10.10.50.50" ];
           };
-          roles.default.machines.sorganeil = { };
+          roles.default.machines.sorganeil.settings = {
+            listenAddresses = [ "10.10.50.51" ];
+          };
 
           roles.cache.machines.zoltraak = { };
         };
