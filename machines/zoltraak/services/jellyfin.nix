@@ -11,6 +11,12 @@
 
   users.users.jellyfin.extraGroups = [ "media" ];
 
+  services.caddy.virtualHosts."jellyfin.driessen.family".extraConfig = ''
+    reverse_proxy http://localhost:8096 {
+      header_up X-Real-IP {remote_host}
+    }
+  '';
+
   environment.persistence = {
     "/persist".directories = [
       {

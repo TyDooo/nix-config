@@ -17,6 +17,16 @@
     };
   };
 
+  services.caddy.virtualHosts = {
+    "overseerr.driessen.family".extraConfig = ''
+      redir https://seerr.driessen.family
+    '';
+
+    "seerr.driessen.family".extraConfig = ''
+      reverse_proxy http://localhost:5055
+    '';
+  };
+
   environment.persistence = {
     "/persist".directories = [
       {

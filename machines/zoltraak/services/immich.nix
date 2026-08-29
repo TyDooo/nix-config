@@ -25,6 +25,12 @@ in
     "d ${mediaLocation} 755 ${immichConf.user} ${immichConf.group} - -"
   ];
 
+  services.caddy.virtualHosts."immich.driessen.family".extraConfig = ''
+    reverse_proxy http://localhost:2283 {
+      header_up X-Real-IP {remote_host}
+    }
+  '';
+
   environment.persistence = {
     "/persist".directories = [
       {

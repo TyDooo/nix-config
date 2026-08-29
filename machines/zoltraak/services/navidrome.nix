@@ -65,6 +65,12 @@ in
   # Add the navidrome user to the media group to allow access to the library
   users.users.navidrome.extraGroups = [ "media" ];
 
+  services.caddy.virtualHosts."navidrome.driessen.family".extraConfig = ''
+    reverse_proxy http://localhost:4533 {
+      header_up X-Real-IP {remote_host}
+    }
+  '';
+
   environment.persistence."/persist".directories = [
     {
       directory = dataPath;

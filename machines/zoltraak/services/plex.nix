@@ -7,6 +7,12 @@
 
   users.users.plex.extraGroups = [ "media" ];
 
+  services.caddy.virtualHosts."plex.driessen.family".extraConfig = ''
+    reverse_proxy http://localhost:32400 {
+      header_up X-Real-IP {remote_host}
+    }
+  '';
+
   environment.persistence = {
     "/persist".directories = [
       {
