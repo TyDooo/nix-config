@@ -1,7 +1,14 @@
-{ pkgs, lib, ... }:
+{
+  self,
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [
     ./modules
+
+    self.nixosModules.qmk
   ];
 
   boot = {
