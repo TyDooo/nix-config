@@ -85,3 +85,5 @@ This configuration is inspired by and borrows from:
 - [darkone-linux/darkone-nixos-framework](https://github.com/darkone-linux/darkone-nixos-framework)
 - [pinpox/nixos](https://github.com/pinpox/nixos)
 - [badele/nix-homelab](https://github.com/badele/nix-homelab)
+- [mightyiam/infra](https://github.com/mightyiam/infra)
+- [vimjoyer/nixconf](https://github.com/vimjoyer/nixconf)
