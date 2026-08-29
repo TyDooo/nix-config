@@ -1,12 +1,34 @@
-# WARN:
-#   The `intel-media-sdk` is deprecated and does not build on recent channels.
-#   Use VAAPI instead of QSV for hardware transcoding.
 { config, ... }:
 {
-
   services.jellyfin = {
     enable = true;
     openFirewall = true;
+
+    forceEncodingConfig = true;
+
+    hardwareAcceleration = {
+      enable = true;
+      type = "vaapi";
+      device = "/dev/dri/renderD128";
+    };
+
+    transcoding = {
+      enableHardwareEncoding = true;
+      enableToneMapping = true;
+
+      hardwareDecodingCodecs = {
+        h264 = true;
+        hevc = true;
+        mpeg2 = true;
+        vc1 = true;
+        vp8 = true;
+        vp9 = true;
+      };
+
+      hardwareEncodingCodecs = {
+        hevc = true;
+      };
+    };
   };
 
   users.users.jellyfin.extraGroups = [ "media" ];
@@ -22,7 +44,6 @@
       {
         directory = config.services.jellyfin.dataDir;
         inherit (config.services.jellyfin) user group;
-        mode = "0700";
       }
     ];
   };
