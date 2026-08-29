@@ -11,6 +11,7 @@
           bitwarden
           sponsorblock
           ublock-origin
+          violentmonkey
 
           kagi-search
           kagi-translate
@@ -25,7 +26,7 @@
 
           "browser.startup.homepage" = "https://kagi.com";
 
-          # Disable password managger
+          # Disable password manager
           "signon.rememberSignons" = "false";
           "signon.autofillForms" = "false";
           "signon.autofillForms.http" = "false";
