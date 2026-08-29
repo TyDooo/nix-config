@@ -2,10 +2,6 @@
 let
   inherit (inputs) self;
   inherit (self) outputs;
-
-  modulePath = ./modules;
-
-  common = modulePath + /common;
 in
 {
   imports = [
@@ -91,13 +87,11 @@ in
           module.name = "importer";
           roles.default.tags = [ "all" ];
           roles.default.extraModules = [
-            inputs.home-manager.nixosModules.home-manager
             self.nixosModules.nuke
 
-            common
-
             ./modules
-          ];
+          ]
+          ++ (with self.nixosModules; [ base ]);
         };
 
         headless = {
